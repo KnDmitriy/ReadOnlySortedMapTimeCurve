@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Collections;
+using System;
 
 namespace IReadOnlySortedMapTimeCurve
 {
@@ -23,5 +24,11 @@ namespace IReadOnlySortedMapTimeCurve
 
             return BitConverter.GetBytes(ticks);
         }
+
+        //public static DateTime GetDateTimeFromBeginningOfCurve(IReadOnlySortedMap<double, byte[]> curveDepthTicks)
+        //{
+        //    return DateTimeHelpers.CreateFromByteArray(curveDepthTicks.);
+        //}
+
     }
 }

@@ -45,7 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeHelpers.cs" />
-    <Compile Include="MyClass.cs" />
+    <Compile Include="DepthTimeIndexConverter.cs" />
+    <Compile Include="IDepthTimeIndexConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
