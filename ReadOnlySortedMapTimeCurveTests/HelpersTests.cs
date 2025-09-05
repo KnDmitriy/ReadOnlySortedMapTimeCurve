@@ -18,15 +18,16 @@ namespace ReadOnlySortedMapTimeCurveTests
         private readonly PieList<double, byte[]> curveLocalTime = new PieList<double, byte[]>();
         private readonly PieList<double, double> curveDepthValue = new PieList<double, double>();
         private readonly PieList<double, double> curveSecondsValue = new PieList<double, double>();
-        private DateTime dateTimeNow = DateTime.Now;
+        private DateTime dateTime = new DateTime(2025, 9, 1, 8, 30, 30, 300);
+        private const int coefficientForConvertingTicksInSeconds = 10000000;
         [SetUp]
-        public void SetupDepthTicks()
+        public void SetupLocalTime()
         {
-            byte[] dateTimeByteArray1 = DateTimeHelpers.CreateFromDateTime(dateTimeNow);
-            byte[] dateTimeByteArray2 = DateTimeHelpers.CreateFromDateTime(dateTimeNow.AddMinutes(1));
-            byte[] dateTimeByteArray3 = DateTimeHelpers.CreateFromDateTime(dateTimeNow.AddMinutes(2));
-            byte[] dateTimeByteArray4 = DateTimeHelpers.CreateFromDateTime(dateTimeNow.AddMinutes(3));
-            byte[] dateTimeByteArray5 = DateTimeHelpers.CreateFromDateTime(dateTimeNow.AddMinutes(4));
+            byte[] dateTimeByteArray1 = DateTimeHelpers.CreateFromDateTime(dateTime);
+            byte[] dateTimeByteArray2 = DateTimeHelpers.CreateFromDateTime(dateTime.AddMinutes(1));
+            byte[] dateTimeByteArray3 = DateTimeHelpers.CreateFromDateTime(dateTime.AddMinutes(2));
+            byte[] dateTimeByteArray4 = DateTimeHelpers.CreateFromDateTime(dateTime.AddMinutes(3));
+            byte[] dateTimeByteArray5 = DateTimeHelpers.CreateFromDateTime(dateTime.AddMinutes(4));
             curveLocalTime.Insert(1000.1, dateTimeByteArray1);
             curveLocalTime.Insert(1001.1, dateTimeByteArray2);
             curveLocalTime.Insert(1002.1, dateTimeByteArray3);
@@ -116,28 +117,28 @@ namespace ReadOnlySortedMapTimeCurveTests
             Assert.That(dt, Is.EqualTo(dateTime));
         }
         [Test]
-        public void ShouldGetDateTimeFromBeginningOfDay()
+        public void ShouldGetTimeInSecondsFromBeginningOfDay()
         {
             // arrange
             var dtNow = DateTime.Now;
-            var today = DateTime.Today;
-            TimeSpan time = dtNow - today;
-            double secondsFromBeginningOfDay = time.TotalSeconds; // Can be inaccuracy because of discarding of remainder  
+            TimeSpan time = dtNow.TimeOfDay;
+            
+            double secondsFromBeginningOfDay = time.Ticks * coefficientForConvertingTicksInSeconds; // Can be inaccuracy because of discarding of remainder  
 
             // act
-            //var dateTime = Main.GetTimeInSecondsFromBeginningOfDay(dtNow);
+            var dateTime = DateTimeHelpers.GetTimeInSecondsFromBeginningOfDay(dtNow);
 
             // assert
-            //Assert.That(secondsFromBeginningOfDay, Is.EqualTo(dateTime));
+            Assert.That(dtNow, Is.EqualTo(dateTime));
         }
         [Test]
-        public void ShouldGetDateTimeFromBeginningOfCurve()
+        public void ShouldGetSecondsFromBeginningOfCurve()
         {
             // arrange
-            SetupDepthTicks();
+            SetupLocalTime();
 
             // act
-            //// DateTime rightDateTime = DateTimeHelpers.CreateFromByteArray(curveDepthTicks.First.Value); // упорядочены ли значения времени?
+            //// DateTime rightDateTime = DateTimeHelpers.CreateFromByteArray(curveDepthTicks.First.Value);
             DateTime dateTime = DateTimeHelpers.GetDateTimeFromBeginningOfCurve(curveLocalTime);
 
             // assert
@@ -153,18 +154,27 @@ namespace ReadOnlySortedMapTimeCurveTests
             //double y1 = 10.1;
             //double x = 1.5;
             //double unknownY = 10.1;
-            SetupDepthTicks();
-
-
-
+            SetupLocalTime();
+            DateTime dateTime1 = DateTimeHelpers.CreateFromByteArray(curveLocalTime[0].Value);
+            DateTime dateTime2 = DateTimeHelpers.CreateFromByteArray(curveLocalTime[1].Value);
+            double seconds1 = dateTime1.Second;
+            double seconds2 = dateTime2.Second;
+            // var converter = new DepthTimeIndexConverter(curveLocalTime.ToSortedMap());
+            Console.WriteLine(seconds1);
+            Console.WriteLine(seconds2);
+            double x0 = 1000.1;
+            double x1 = 1001.1;
+            double y0 = seconds1;
+            double y1 = seconds2;
+            double x = 1000.6;
+            double unknownY = y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+            
             // act
             //// DateTime rightDateTime = DateTimeHelpers.CreateFromByteArray(curveDepthTicks.First.Value); // упорядочены ли значения времени?
-            
-            
-            DateTime dateTime = .GetLinearInterpolation(curveLocalTime);
+            double interpolatedSeconds = DepthTimeIndexConverter.GetLinearInterpolation(x, x0, x1, y0, y1);
 
             // assert
-            //Assert.That(Is.Equals(dateTime, DateTime.Now));
+            Assert.That(Equals(unknownY, interpolatedSeconds));
         }
         
 
@@ -173,7 +183,7 @@ namespace ReadOnlySortedMapTimeCurveTests
         public void ShouldGetResultSortedMap()
         {
             // arrange
-            SetupDepthTicks();
+            SetupLocalTime();
             SetupDepthValue();
             SetupSecondsValue();
             var curveDepthValueSortedMap = curveDepthValue.ToSortedMap();

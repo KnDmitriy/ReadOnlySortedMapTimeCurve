@@ -47,7 +47,9 @@
     <Compile Include="DateTimeHelpers.cs" />
     <Compile Include="DepthTimeIndexConverter.cs" />
     <Compile Include="IDepthTimeIndexConverter.cs" />
+    <Compile Include="LocalTimeItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeOfTimeCalculation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
