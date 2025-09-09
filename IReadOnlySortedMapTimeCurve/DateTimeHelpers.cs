@@ -28,13 +28,32 @@ namespace IReadOnlySortedMapTimeCurve
 
         public static DateTime GetDateTimeFromBeginningOfCurve(PieList<double, byte[]> curveLocalTime)
         {
-            throw new NotImplementedException();
+            if (curveLocalTime is null)
+                throw new ArgumentNullException(nameof(curveLocalTime));
+            if (curveLocalTime.Count < 1)
+                throw new ArgumentException("PieList mustn't be empty.");
+
+            // В curveLocalTime объекты даты и времени упорядочены.
+            // Значит минимальное значение даты и времени либо первое значение curveLocalTime, либо последнее.
+            DateTime firstDateTime = CreateFromByteArray(curveLocalTime.First.Value);
+            DateTime lastDateTime = CreateFromByteArray(curveLocalTime.Last.Value);
+            DateTime minDateTime;
+            // Возможно нужна проверка на то, находится ли время в одном часовом поясе (за это отвечает свойство Kind).
+            // Хотя кривая называется "Местное время", значит, по идее, время уже указано в нужном часовом поясе. 
+            if (firstDateTime.CompareTo(lastDateTime) > 0)
+            {
+                minDateTime = lastDateTime;
+            }
+            else
+            {
+                minDateTime = firstDateTime;
+            }
+            return minDateTime;
         }
 
         public static double GetTimeInSecondsFromBeginningOfDay(DateTime dateTime)
         {
-            return 0;
-
+            throw new NotImplementedException();
         }
         public static double GetLinearInterpolation(IReadOnlySortedMap<double, byte[]> localTime, double depth, int indexOfNextItem)
         {
@@ -52,20 +71,6 @@ namespace IReadOnlySortedMapTimeCurve
 
             double interpolatedSeconds = seconds0 + (depth - depth0) * (seconds1 - seconds0) / (depth1 - depth0);
             return interpolatedSeconds;
-        }
-
-        public static double GetLinearInterpolation(double depth, double depth0, double depth1, double seconds0, double seconds1)
-        {
-            return GetLinearInterpolation(depth, new LocalTimeItem(depth0, seconds0), new LocalTimeItem(depth1, seconds1));
-        }
-
-        public static double GetLinearInterpolation(double depth, LocalTimeItem begin, LocalTimeItem end)
-        {
-            if (depth < 0)
-                throw new ArgumentOutOfRangeException("The depth can't be less than zero.");
-            if (begin.Time < 0 || end.Time < 0)
-                throw new ArgumentOutOfRangeException("Time can't be negative.");
-            return begin.Time + (depth - begin.Depth) * (end.Time - begin.Time) / (end.Depth - begin.Depth);
         }
 
 

@@ -13,9 +13,9 @@ namespace ReadOnlySortedMapTimeCurve
     public class DepthTimeIndexConverter : IDepthTimeIndexConverter
     {
         private readonly IReadOnlySortedMap<double, byte[]> localTime;
-        private double minTimeInLocalTime;
         public DepthTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime)
         {
+
             this.localTime = localTime ?? throw new ArgumentNullException(nameof(localTime));
         }        
         public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> source)

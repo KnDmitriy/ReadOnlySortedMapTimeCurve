@@ -118,7 +118,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HelpersTests.cs" />
+    <Compile Include="DateTimeHelpersTests.cs" />
+    <Compile Include="MathHelpersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
