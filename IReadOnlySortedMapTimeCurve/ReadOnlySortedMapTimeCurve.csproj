@@ -34,6 +34,9 @@
     <Reference Include="Collections">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Collections.dll</HintPath>
     </Reference>
+    <Reference Include="MathLib">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\MathLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,8 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeHelpers.cs" />
-    <Compile Include="DepthTimeIndexConverter.cs" />
-    <Compile Include="IDepthTimeIndexConverter.cs" />
+    <Compile Include="DateTimeInSeconds.cs" />
+    <Compile Include="DepthToTimeIndexConverter.cs" />
+    <Compile Include="IDepthToTimeIndexConverter.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="MathHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
