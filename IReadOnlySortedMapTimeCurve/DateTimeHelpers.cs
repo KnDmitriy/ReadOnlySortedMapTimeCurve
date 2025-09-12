@@ -6,8 +6,8 @@ namespace IReadOnlySortedMapTimeCurve
 {
     public static class DateTimeHelpers
     {
-        private const long secondsPerTicks = 10_000_000;
-        private const double coefficientTicksPerSeconds = 1e-7;
+        private const long ticksPerSecond = 10_000_000;
+        private const double secondsPerTick = 1e-7;
 
         public static DateTime CreateFromByteArray(byte[] bytes)
         {
@@ -88,7 +88,7 @@ namespace IReadOnlySortedMapTimeCurve
 
         public static double GetSecondsFromDateTime(DateTime minDateTime)
         {
-            return minDateTime.Ticks * coefficientTicksPerSeconds;
+            return minDateTime.Ticks * secondsPerTick;
         }
 
 
