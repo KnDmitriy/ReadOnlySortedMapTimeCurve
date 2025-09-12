@@ -10,112 +10,10 @@ namespace ReadOnlySortedMapTimeCurveTests
     [TestFixture]
     public class DateTimeHelpersTests
     {
-        //private readonly PieList<double, byte[]> localTimeCurve = new PieList<double, byte[]>();
-        //private readonly PieList<double, double> depthValueCurve = new PieList<double, double>();
-        //private readonly PieList<double, double> correctSecondsCurve = new PieList<double, double>();
         private static readonly DateTime dateTimeForTests = new DateTime(2025, 9, 2, 1, 1, 30, 300);
         private static readonly double dateTimeForTestsInSecondsFromStartOfDay = 3600 + 60 + 30 + 0.3;
         private const long ticksPerSecond = (long)1e7;
         private const double secondsPerTick = 1e-7;
-
-        //public void SetupLocalTimeWithIncreasingDateTime()
-        //{
-        //    localTimeCurve.Clear();
-        //    byte[] dateTimeByteArray1 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        10 * ticksPerSecond));
-        //    byte[] dateTimeByteArray2 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        20 * ticksPerSecond));
-        //    byte[] dateTimeByteArray3 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        30 * ticksPerSecond));
-        //    byte[] dateTimeByteArray4 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        40 * ticksPerSecond));
-        //    byte[] dateTimeByteArray5 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        50 * ticksPerSecond));
-        //    localTimeCurve.Insert(1000, dateTimeByteArray1);
-        //    localTimeCurve.Insert(1100, dateTimeByteArray2);
-        //    localTimeCurve.Insert(1200, dateTimeByteArray3);
-        //    localTimeCurve.Insert(1300, dateTimeByteArray4);
-        //    localTimeCurve.Insert(1400, dateTimeByteArray5);
-        //}
-        //public void SetupDepthValueWithIncreasingDateTime()
-        //{
-        //    depthValueCurve.Clear();
-        //    depthValueCurve.Insert(1050, -2.5);
-        //    depthValueCurve.Insert(1120, -1.5);
-        //    depthValueCurve.Insert(1210, -0.5);
-        //    depthValueCurve.Insert(1340, 0.5);
-        //    depthValueCurve.Insert(1390, 1.5);
-        //}
-        //public void SetupSecondsValueWithIncreasingDateTime()
-        //{
-        //    correctSecondsCurve.Clear();
-        //    correctSecondsCurve.Insert(15, -2.5);
-        //    correctSecondsCurve.Insert(22, -1.5);
-        //    correctSecondsCurve.Insert(31, -0.5);
-        //    correctSecondsCurve.Insert(44, 0.5);
-        //    correctSecondsCurve.Insert(49, 1.5);
-        //}
-
-
-        //public void SetupLocalTimeWithDecreasingDateTime()
-        //{
-        //    localTimeCurve.Clear();
-        //    byte[] dateTimeByteArray1 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        50 * ticksPerSecond));
-        //    byte[] dateTimeByteArray2 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        40 * ticksPerSecond));
-        //    byte[] dateTimeByteArray3 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        30 * ticksPerSecond));
-        //    byte[] dateTimeByteArray4 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        20 * ticksPerSecond));
-        //    byte[] dateTimeByteArray5 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        10 * ticksPerSecond));
-        //    localTimeCurve.Insert(1000, dateTimeByteArray1);
-        //    localTimeCurve.Insert(1100, dateTimeByteArray2);
-        //    localTimeCurve.Insert(1200, dateTimeByteArray3);
-        //    localTimeCurve.Insert(1300, dateTimeByteArray4);
-        //    localTimeCurve.Insert(1400, dateTimeByteArray5);
-        //}
-        //public void SetupDepthValueWithDecreasingDateTime()
-        //{
-        //    depthValueCurve.Clear();
-        //    depthValueCurve.Insert(1050, -2.5);
-        //    depthValueCurve.Insert(1120, -1.5);
-        //    depthValueCurve.Insert(1210, -0.5);
-        //    depthValueCurve.Insert(1340, 0.5);
-        //    depthValueCurve.Insert(1390, 1.5);
-        //}
-        //public void SetupSecondsValueWithDecreasingDateTime()
-        //{
-        //    correctSecondsCurve.Clear();
-        //    correctSecondsCurve.Insert(45, -2.5);
-        //    correctSecondsCurve.Insert(38, -1.5);
-        //    correctSecondsCurve.Insert(29, -0.5);
-        //    correctSecondsCurve.Insert(16, 0.5);
-        //    correctSecondsCurve.Insert(11, 1.5);
-        //}
-
-        //// TODO: Понять, нужен ли этот метод?
-        //public void SetupLocalTimeWithIncreasingDateTimeFromStartOfCurve()
-        //{
-        //    localTimeCurve.Clear();
-        //    byte[] dateTimeByteArray1 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        0));
-        //    byte[] dateTimeByteArray2 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        10 * ticksPerSecond));
-        //    byte[] dateTimeByteArray3 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        20 * ticksPerSecond));
-        //    byte[] dateTimeByteArray4 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        30 * ticksPerSecond));
-        //    byte[] dateTimeByteArray5 = DateTimeHelpers.ToByteArray(new DateTime(
-        //        40 * ticksPerSecond));
-        //    localTimeCurve.Insert(1000, dateTimeByteArray1);
-        //    localTimeCurve.Insert(1100, dateTimeByteArray2);
-        //    localTimeCurve.Insert(1200, dateTimeByteArray3);
-        //    localTimeCurve.Insert(1300, dateTimeByteArray4);
-        //    localTimeCurve.Insert(1400, dateTimeByteArray5);
-        //}
-
 
         [Test]
         public void ShouldThrowArgumentNullException()
@@ -237,17 +135,13 @@ namespace ReadOnlySortedMapTimeCurveTests
             var localTimeCurve = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
             var depthValueCurve = TestCurvesHelper.GetDepthValueCurve();
             var correctSecondsCurve = TestCurvesHelper.GetSecondsValueCurveWithIncreasingDateTime();
+
             var depthValueCurveSortedMap = depthValueCurve.ToSortedMap();
             var depthTicksCurveSortedMap = localTimeCurve.ToSortedMap();
+
             // act
-            //// DateTime rightDateTime = DateTimeHelpers.CreateFromByteArray(depthTicksCurve.First.Value); // упорядочены ли значения времени?
             var converter = new DepthToTimeIndexConverter(depthTicksCurveSortedMap);
             var resultedCurve = converter.Convert(depthValueCurveSortedMap);
-
-            //for (var i = 0; i < depthValueCurve.Count; i++)
-            //{
-            //    Console.WriteLine(curveSecondsValue[i].ToString());
-            //}
 
             // assert
             Assert.That(resultedCurve != null);
