@@ -50,6 +50,7 @@ namespace IReadOnlySortedMapTimeCurve
             return result;
         }
 
+        // Аналоги функции GetDepthValueCurve:
         //public static PieList<double, double> GetDepthValueCurveWithIncreasingDateTime()
         //{
         //    var result = new PieList<double, double>();
@@ -65,15 +66,6 @@ namespace IReadOnlySortedMapTimeCurve
 
         //public static PieList<double, double> GetDepthValueCurveWithDecreasingDateTime()
         //{
-        //    //var result = new PieList<double, double>();
-
-        //    //result.Insert(1050, -2.5);
-        //    //result.Insert(1120, -1.5);
-        //    //result.Insert(1210, -0.5);
-        //    //result.Insert(1340, 0.5);
-        //    //result.Insert(1390, 1.5);
-
-        //    //return result;
         //    return GetDepthValueCurveWithIncreasingDateTime();
         //}
 

@@ -16,17 +16,17 @@ namespace ReadOnlySortedMapTimeCurveTests
     [TestFixture]
     public class TicksFromByteArrayTests
     {
-        private readonly PieList<double, byte[]> curveLocalTime = new PieList<double, byte[]>();
+        // private readonly PieList<double, byte[]> curveLocalTime = new PieList<double, byte[]>();
         private const long ticksPerSecond = 10_000_000L;
 
         [Test]
-        public void ShouldThrowNullException()
+        public void ShouldThrowNullExceptionDuringInitializationTicksFromByteArray()
         {            
             Assert.Throws<ArgumentNullException>(() => new TicksFromByteArray(null));
         }
 
         [Test]
-        public void ShouldNotThrowNullException()
+        public void ShouldNotThrowNullExceptionDuringInitializationTicksFromByteArray()
         {
             var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
 
@@ -38,42 +38,85 @@ namespace ReadOnlySortedMapTimeCurveTests
         }
 
         [Test]
-        public void ShouldBeRightArraySize()
+        public void ShouldThrowNullExceptionDuringInitializationTicksList()
         {
             var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
+            IReadOnlyList<byte[]> readOnlyByteList = null;
 
-            IReadOnlyList<byte[]> byteList = new List<byte[]>();
+            localTime.Setup(l => l.Values).Returns(readOnlyByteList);
+            Assert.Throws<ArgumentNullException>(() => new TicksFromByteArray(localTime.Object));
+        }
+
+        [Test]
+        public void ShouldThrowExceptionWrongArraysSize()
+        {
+            var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
+            int rightArraySize = 8;
+            int wrongArraySize = 4;
+
+            var byteList = new List<byte[]>
+            {
+                new byte[rightArraySize],
+                new byte[wrongArraySize],
+            };
+            IReadOnlyList<byte[]> readOnlyByteList = byteList;
             
-            localTime.Setup(l => l.Values).Returns(byteList);
+            localTime.Setup(l => l.Values).Returns(readOnlyByteList);
 
-            var ticksFromByteArray = new TicksFromByteArray(localTime.Object);
-            Assert.That(ticksFromByteArray, Is.Not.Null);
-        }
-
-        [Test]
-        public void ShouldThrow()
-        {
-            Assert.Throws<ArgumentNullException>(() => new TicksFromByteArray(null));
+            Assert.Throws<ArgumentException>(() => new TicksFromByteArray(localTime.Object));
         }
 
         [Test]
         public void ShouldGetRightValueByKey()
         {
-            TicksFromByteArray curveWidthTicks = new TicksFromByteArray(curveLocalTime.ToSortedMap());
+            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
+            TicksFromByteArray widthTicksCurve = new TicksFromByteArray(localTime.ToSortedMap());
+            long rightTicks = 20 * ticksPerSecond;
+            double key = 1100;
 
-            long ticks = curveWidthTicks[(double) 1100];
+            long obtainedTicks = widthTicksCurve[key];
 
-            Assert.That(Equals(20 * ticksPerSecond, ticks));
+            Assert.That(Equals(rightTicks, obtainedTicks));
+        }
+
+        [Test]
+        public void ShouldGetRightItemFromTicksListByIndex()
+        {
+            throw new NotImplementedException();
         }
 
         [Test]
         public void ShouldGetRightKeyValuePair()
         {
-            TicksFromByteArray curveWidthTicks = new TicksFromByteArray(curveLocalTime.ToSortedMap());
+            //TicksFromByteArray curveWidthTicks = new TicksFromByteArray(curveLocalTime.ToSortedMap());
 
-            long ticks = curveWidthTicks[(double)1100];
+            //long ticks = curveWidthTicks[(double)1100];
 
-            Assert.That(Equals(20 * ticksPerSecond, ticks));
+            //Assert.That(Equals(20 * ticksPerSecond, ticks));
+            throw new NotImplementedException();
         }
+
+        [Test]
+        public void ShouldGetRightCountForTicksList()
+        {
+            var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
+            int arraySize = 8;
+            int rightCount = 3;
+            var byteList = new List<byte[]>
+            {
+                new byte[arraySize],
+                new byte[arraySize],
+                new byte[arraySize],
+            };
+            IReadOnlyList<byte[]> readOnlyByteList = byteList;
+            localTime.Setup(l => l.Count).Returns(readOnlyByteList.Count);
+            localTime.Setup(l => l.Values).Returns(readOnlyByteList);
+
+            var localTimeTicksFromByteArrayObject = new TicksFromByteArray(localTime.Object);
+
+            Assert.That(rightCount, Is.EqualTo(localTimeTicksFromByteArrayObject.Count));
+        }
+
+        
     }
 }

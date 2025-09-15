@@ -9,6 +9,7 @@ using ReadOnlySortedMapTimeCurve;
 
 namespace IReadOnlySortedMapTimeCurve
 {
+    // НЕ ИСПОЛЬЗУЕТСЯ
     public class DateTimeInSeconds : IReadOnlySortedMap<double, double>
     {
         private readonly IReadOnlySortedMap<double, byte[]> source;

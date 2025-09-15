@@ -7,6 +7,7 @@ using NUnit.Framework.Legacy;
 
 namespace ReadOnlySortedMapTimeCurveTests
 {
+    // НЕ ИСПОЛЬЗУЕТСЯ
     [TestFixture]
     public class DateTimeInSecondsTests
     {

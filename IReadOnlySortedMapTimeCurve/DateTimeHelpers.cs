@@ -15,7 +15,7 @@ namespace IReadOnlySortedMapTimeCurve
                 throw new ArgumentNullException(nameof(bytes));
 
             if (bytes.Length != 8)
-                throw new ArgumentException("Byte array is wrong");
+                throw new ArgumentException("The byte array has incorrect size.");
 
             var ticks = BitConverter.ToInt64(bytes, 0);
             
@@ -68,23 +68,7 @@ namespace IReadOnlySortedMapTimeCurve
             return time.TotalSeconds;
         }
 
-        //public static double GetLinearInterpolation(IReadOnlySortedMap<double, byte[]> localTime, double depth, int indexOfNextItem)
-        //{
-        //    if (depth < 0)
-        //        throw new ArgumentOutOfRangeException("The depth can't be less than zero.");
-
-        //    DateTime dateTime0 = CreateFromByteArray(localTime[indexOfNextItem - 1].Value);
-        //    double seconds0 = dateTime0.Second;  // TODO: заменить!!!
-        //    DateTime dateTime1 = CreateFromByteArray(localTime[indexOfNextItem].Value);
-        //    double seconds1 = dateTime1.Second;  // TODO: заменить!!!
-        //    if (seconds0 < 0 || seconds1 < 0)
-        //        throw new ArgumentOutOfRangeException("Time can't be negative.");
-        //    double depth0 = localTime[indexOfNextItem - 1].Key;
-        //    double depth1 = localTime[indexOfNextItem].Key;
-
-        //    double interpolatedSeconds = seconds0 + (depth - depth0) * (seconds1 - seconds0) / (depth1 - depth0);
-        //    return interpolatedSeconds;
-        //}
+        
 
         public static double GetSecondsFromDateTime(DateTime minDateTime)
         {
