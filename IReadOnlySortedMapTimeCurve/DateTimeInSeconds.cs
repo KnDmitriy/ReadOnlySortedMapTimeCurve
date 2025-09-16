@@ -55,7 +55,7 @@ namespace IReadOnlySortedMapTimeCurve
 
         public int Count => source.Count;
 
-        public int BinarySearch(double Key) => source.BinarySearch(Key);
+        public int BinarySearch(double key) => source.BinarySearch(key);
         
         public bool ContainsKey(double key) => source.ContainsKey(key);
         
