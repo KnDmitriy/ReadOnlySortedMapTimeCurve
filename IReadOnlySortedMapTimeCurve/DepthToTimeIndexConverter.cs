@@ -1,6 +1,6 @@
-﻿using Collections;
+﻿using System;
+using Collections;
 using IReadOnlySortedMapTimeCurve;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,14 +12,25 @@ namespace ReadOnlySortedMapTimeCurve
 {
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
-        private readonly IReadOnlySortedMap<double, byte[]> localTime;
-        private readonly double? minDateTimeFromCurveLocalTime = null;
+        //private readonly IReadOnlySortedMap<double, byte[]> localTime;
+        private readonly TicksFromByteArray depthTicks;
+        private readonly long minTicksFromLocalTime;
 
-        public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime)
+        public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime, TypeOfTimeCalculation type)
         {
-            this.localTime = localTime ?? throw new ArgumentNullException(nameof(localTime));
-            
-            //minDateTimeFromCurveLocalTime = DateTimeHelpers.GetMinDateTimeFromLocalTime(localTime);
+            //this.localTime = localTime ?? throw new ArgumentNullException(nameof(localTime));
+            depthTicks = new TicksFromByteArray(localTime) ?? throw new ArgumentNullException(nameof(localTime));
+            switch (type)
+            {
+                case TypeOfTimeCalculation.LocalTimeMin:
+                    minTicksFromLocalTime = DateTimeHelpers.GetMinTicksFromLocalTime(depthTicks);
+                    break;
+                case TypeOfTimeCalculation.StartOfDay:
+                    minTicksFromLocalTime = DateTimeHelpers.GetMinTicksFromStartOfDay(depthTicks);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type));
+            }
         }
         
         public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> source)
@@ -32,37 +43,25 @@ namespace ReadOnlySortedMapTimeCurve
             for (var i = 0; i < source.Count; i++)
             {
                 double depth = source[i].Key;
-                int index = localTime.BinarySearch(depth);
+                int index = depthTicks.BinarySearch(depth);
 
                 if (index >= 0)
                 {
-                    DateTime dateTime = DateTimeHelpers.CreateFromByteArray(localTime[index].Value);
-                    
-                    //double seconds = DateTimeHelpers.GetDateTimeInSecondsFromBeginingOfCurve(localTime, minDateTime);
-                    //result.Insert(seconds, source[i].Value);
+                    result.Insert(ToSeconds(depthTicks[index].Value - minTicksFromLocalTime), source[i].Value);
                 }
                 else
                 {
-                    index = ~index;
-                    
-                    //DateTime dateTime0 = DateTimeHelpers.CreateFromByteArray(localTime[index - 1].Value);
-                    //double seconds0 = dateTime0.Second;
-                    //DateTime dateTime1 = DateTimeHelpers.CreateFromByteArray(localTime[index].Value);
-                    //double seconds1 = dateTime1.Second;
-                    //double interpolatedSeconds = DateTimeHelpers.GetLinearInterpolation(depth, localTime[index - 1].Key,
-                    //    localTime[index].Key, seconds0, seconds1);
-
-                    // Будет ли это работать? Ведь localTime - private field
-                    //double interpolatedSeconds = DateTimeHelpers.GetLinearInterpolation(localTime, depth, index);
-
-                    //result.Insert(interpolatedSeconds, source[i].Value);
-                    
+                    index = ~index; // Добавить проверки на index == 0 и index == depthTicksCurve.Count
+                    double interpolatedTicks = MathHelpers.InterpolateLinear(depth, depthTicks[index - 1].Key,
+                        depthTicks[index - 1].Value, depthTicks[index].Key, depthTicks[index].Value);
+                    result.Insert(depth, interpolatedTicks - (double)minTicksFromLocalTime);// Разобраться!!!
                 }
             }            
             return result.ToSortedMap();
         }
 
-
+        private static double ToSeconds(long ticks)
+            => ticks / 10_000_000d;
         
     }
 }

@@ -102,9 +102,6 @@ namespace IReadOnlySortedMapTimeCurve
             return true;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

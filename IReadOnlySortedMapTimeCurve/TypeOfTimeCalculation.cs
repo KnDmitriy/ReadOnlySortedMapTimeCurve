@@ -2,7 +2,7 @@
 {
     public enum TypeOfTimeCalculation
         {
-            LocalTimeMinimum,
+            LocalTimeMin,
             StartOfDay
         }
 }
