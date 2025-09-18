@@ -12,13 +12,11 @@ namespace ReadOnlySortedMapTimeCurve
 {
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
-        //private readonly IReadOnlySortedMap<double, byte[]> localTime;
         private readonly TicksFromByteArray depthTicks;
         private readonly long minTicksFromLocalTime;
 
         public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime, TypeOfTimeCalculation type)
         {
-            //this.localTime = localTime ?? throw new ArgumentNullException(nameof(localTime));
             depthTicks = new TicksFromByteArray(localTime) ?? throw new ArgumentNullException(nameof(localTime));
             switch (type)
             {
@@ -33,28 +31,32 @@ namespace ReadOnlySortedMapTimeCurve
             }
         }
         
-        public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> source)
+        public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> depthValue)
         {
-            if (source is null)            
-                throw new ArgumentNullException(nameof(source));
+            if (depthValue is null)            
+                throw new ArgumentNullException(nameof(depthValue));
             
             var result = new PieList<double, double>();
             
-            for (var i = 0; i < source.Count; i++)
+            for (var i = 0; i < depthValue.Count; i++)
             {
-                double depth = source[i].Key;
+                double depth = depthValue[i].Key;
                 int index = depthTicks.BinarySearch(depth);
 
                 if (index >= 0)
                 {
-                    result.Insert(ToSeconds(depthTicks[index].Value - minTicksFromLocalTime), source[i].Value);
+                    result.Insert(ToSeconds(depthTicks[index].Value - minTicksFromLocalTime), depthValue[i].Value);
                 }
                 else
                 {
                     index = ~index; // Добавить проверки на index == 0 и index == depthTicksCurve.Count
+                    if (index == 0)
+                    {
+                        // result.Insert();
+                    }
                     double interpolatedTicks = MathHelpers.InterpolateLinear(depth, depthTicks[index - 1].Key,
                         depthTicks[index - 1].Value, depthTicks[index].Key, depthTicks[index].Value);
-                    result.Insert(depth, interpolatedTicks - (double)minTicksFromLocalTime);// Разобраться!!!
+                    result.Insert(interpolatedTicks - minTicksFromLocalTime, );// Разобраться!!!
                 }
             }            
             return result.ToSortedMap();
