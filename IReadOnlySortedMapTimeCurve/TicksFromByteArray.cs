@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Collections;
 
-namespace IReadOnlySortedMapTimeCurve
+namespace TimeReadOnlySortedMap
 {
     public class TicksFromByteArray : IReadOnlySortedMap<double, long>
     {

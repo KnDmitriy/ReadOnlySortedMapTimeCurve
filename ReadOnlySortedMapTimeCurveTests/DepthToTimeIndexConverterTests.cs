@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Collections;
-using IReadOnlySortedMapTimeCurve;
+using TimeReadOnlySortedMap;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using ReadOnlySortedMapTimeCurve;
 
-namespace ReadOnlySortedMapTimeCurveTests
+namespace TimeReadOnlySortedMapTests
 {
     [TestFixture]
     public class DepthToTimeIndexConverterTests
     {
+        private const double tol = 1e-10;
+
         [Test]
-        public void ShouldThrowArgumentNullExceptionWithNullLocalTime()
+        public void ShouldThrowArgumentNullExceptionOnNullLocalTime()
         {
             Assert.Throws<ArgumentNullException>(
                 () => new DepthToTimeIndexConverter(null, TypeOfTimeCalculation.LocalTimeMin));
@@ -32,7 +34,7 @@ namespace ReadOnlySortedMapTimeCurveTests
         }
 
         [Test]
-        public void ShouldThrowArgumentNullExceptionDuringConverting()
+        public void ShouldThrowArgumentNullExceptionOnConvert()
         {
             var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTime.Setup(l => l.Values).Returns(new List<byte[]>());
@@ -42,33 +44,68 @@ namespace ReadOnlySortedMapTimeCurveTests
             Assert.Throws<ArgumentNullException>(() => converter.Convert(null));
         }
 
+        #region Convert on local time
+
         [Test]
-        public void ShouldConvertRightOnLocalTimeMin()
+        public void ShouldConvertRightOnLocalTimeMinWithIncreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TypeOfTimeCalculation.LocalTimeMin);
-            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValueCurve().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetTicksValueCurveWithIncreasingDateTimeFromLocalTimeMin();
+            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
+            var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromLocalTimeMin();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                Assert.That(obtainedResult[i], Is.EqualTo(expectedResult[i]));
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
             }
         }
 
         [Test]
-        public void ShouldConvertRightOnStartOfDay()
+        public void ShouldConvertRightOnLocalTimeMinWithDecreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
-            var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TypeOfTimeCalculation.StartOfDay);
-            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValueCurve().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetTicksValueCurveWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TypeOfTimeCalculation.LocalTimeMin);
+            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
+            var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromLocalTimeMin();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                Assert.That(obtainedResult[i], Is.EqualTo(expectedResult[i]));
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
             }
+        }
 
+        #endregion
+
+        [Test]
+        public void ShouldConvertRightOnStartOfDayWithIncreasingDateTime()
+        {
+            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+            var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TypeOfTimeCalculation.StartOfDay);
+            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
+            var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromStartOfDay();
+            Assert.That(obtainedResult, Is.Not.Null);
+            for (var i = 0; i < obtainedResult.Count; i++)
+            {
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+            }
+        }
+
+        [Test]
+        public void ShouldConvertRightOnStartOfDayWithDecreasingDateTime()
+        {
+            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TypeOfTimeCalculation.StartOfDay);
+            var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
+            var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromStartOfDay();
+            Assert.That(obtainedResult, Is.Not.Null);
+            for (var i = 0; i < obtainedResult.Count; i++)
+            {
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+            }
         }
     }
 }

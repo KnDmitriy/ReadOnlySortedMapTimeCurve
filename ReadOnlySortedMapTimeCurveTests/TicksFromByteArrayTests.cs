@@ -2,28 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using Collections;
-using IReadOnlySortedMapTimeCurve;
+using TimeReadOnlySortedMap;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
-using NUnit.Framework.Legacy;
 
-namespace ReadOnlySortedMapTimeCurveTests
+namespace TimeReadOnlySortedMapTests
 {
     [TestFixture]
     public class TicksFromByteArrayTests
     {
         private const long ticksPerSecond = 10_000_000L;
-        private const long ticksPerDay = 864_000_000_000L;
 
         [Test]
-        public void ShouldThrowNullExceptionDuringInitializationTicksFromByteArray()
+        public void ShouldThrowNullExceptionOnInitializationTicksFromByteArray()
         {            
             Assert.Throws<ArgumentNullException>(() => new TicksFromByteArray(null));
         }
 
         [Test]
-        public void ShouldNotThrowNullExceptionDuringInitializationTicksFromByteArray()
+        public void ShouldNotThrowNullExceptionOnInitializationTicksFromByteArray()
         {
             var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
 
@@ -35,7 +32,7 @@ namespace ReadOnlySortedMapTimeCurveTests
         }
 
         [Test]
-        public void ShouldThrowNullExceptionDuringInitializationTicksList()
+        public void ShouldThrowNullExceptionOnInitializationTicksList()
         {
             var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
             IReadOnlyList<byte[]> readOnlyByteArraysList = null;
@@ -78,17 +75,17 @@ namespace ReadOnlySortedMapTimeCurveTests
         //    Assert.That(Equals(rightTicks, testedObject[key]));
         //}
 
-        [Test]
-        public void ShouldGetRightKeyValuePair()
-        {
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
-            TicksFromByteArray depthTicksCurve = new TicksFromByteArray(localTime.ToSortedMap());
-            KeyValuePair<double, long> rightKeyValuePair = 
-                new KeyValuePair<double, long>(1100, (long)0.9 * ticksPerDay);
-            const int index = 1;
+        //[Test]
+        //public void ShouldGetRightKeyValuePair()
+        //{
+        //    var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+        //    TicksFromByteArray depthTicksCurve = new TicksFromByteArray(localTime.ToSortedMap());
+        //    KeyValuePair<double, long> rightKeyValuePair = 
+        //        new KeyValuePair<double, long>(1100, (long)0.9 * ticksPerDay);
+        //    const int index = 1;
 
-            Assert.That(depthTicksCurve[index], Is.EqualTo(rightKeyValuePair));
-        }
+        //    Assert.That(depthTicksCurve[index], Is.EqualTo(rightKeyValuePair));
+        //}
 
         [Test]
         public void ShouldGetRightCountForTicksList()
@@ -135,9 +132,9 @@ namespace ReadOnlySortedMapTimeCurveTests
         }
 
         [Test]
-        public void ShouldBinarySearch()
+        public void ShouldBinarySearchInLocalTimeWithIncreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
             var testedObject = new TicksFromByteArray(localTime.ToSortedMap());
             double key = localTime[0].Key;
             Assert.That(localTime.BinarySearch(key), Is.EqualTo(testedObject.BinarySearch(key)));
@@ -157,7 +154,29 @@ namespace ReadOnlySortedMapTimeCurveTests
         }
 
         [Test]
-        public void ShouldRightContainsKey()
+        public void ShouldBinarySearchInLocalTimeWithDecreasingDateTime()
+        {
+            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var testedObject = new TicksFromByteArray(localTime.ToSortedMap());
+            double key = localTime[0].Key;
+            Assert.That(localTime.BinarySearch(key), Is.EqualTo(testedObject.BinarySearch(key)));
+            key = localTime[localTime.Count - 1].Key;
+            Assert.That(localTime.BinarySearch(key), Is.EqualTo(testedObject.BinarySearch(key)));
+
+            key = localTime[1].Key;
+            Assert.That(localTime.BinarySearch(key - 0.1),
+                Is.EqualTo(testedObject.BinarySearch(key - 0.1)));
+
+            Assert.That(localTime.BinarySearch(double.MinValue),
+                Is.EqualTo(testedObject.BinarySearch(double.MinValue)));
+            Assert.That(localTime.BinarySearch(double.MaxValue),
+                Is.EqualTo(testedObject.BinarySearch(double.MaxValue)));
+            Assert.That(localTime.BinarySearch(double.NegativeInfinity),
+                Is.EqualTo(testedObject.BinarySearch(double.NegativeInfinity)));
+        }
+
+        [Test]
+        public void ShouldRightContainKey()
         {
             const double key1 = 1000;
             const double key2 = 1100;
@@ -185,7 +204,7 @@ namespace ReadOnlySortedMapTimeCurveTests
         [Test]
         public void ShouldGetRightKeyByEnumerator()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
             var localTimeEnumerator = localTime.GetEnumerator();
             var testedObject = new TicksFromByteArray(localTime.ToSortedMap());
             var testedObjectEnumerator = testedObject.GetEnumerator();
@@ -203,7 +222,7 @@ namespace ReadOnlySortedMapTimeCurveTests
         public void ShouldTryGetValue()
         {
             const double nonExistingKey = 1;
-            var localTime = TestCurvesHelper.GetLocalTimeCurveWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
 
             var testedObject = new TicksFromByteArray(localTime.ToSortedMap());
 

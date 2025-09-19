@@ -132,9 +132,9 @@
     <Compile Include="TicksFromByteArrayTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IReadOnlySortedMapTimeCurve\ReadOnlySortedMapTimeCurve.csproj">
+    <ProjectReference Include="..\IReadOnlySortedMapTimeCurve\TimeReadOnlySortedMap.csproj">
       <Project>{1ce12383-6bfc-48da-a1ab-cc694e61c220}</Project>
-      <Name>ReadOnlySortedMapTimeCurve</Name>
+      <Name>TimeReadOnlySortedMap</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

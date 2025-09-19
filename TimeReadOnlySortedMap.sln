@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadOnlySortedMapTimeCurve", "IReadOnlySortedMapTimeCurve\ReadOnlySortedMapTimeCurve.csproj", "{1CE12383-6BFC-48DA-A1AB-CC694E61C220}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeReadOnlySortedMap", "IReadOnlySortedMapTimeCurve\TimeReadOnlySortedMap.csproj", "{1CE12383-6BFC-48DA-A1AB-CC694E61C220}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadOnlySortedMapTimeCurveTests", "ReadOnlySortedMapTimeCurveTests\ReadOnlySortedMapTimeCurveTests.csproj", "{54E5CD41-18C4-497A-9DC3-DABF8BC38359}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeReadOnlySortedMapTests", "ReadOnlySortedMapTimeCurveTests\TimeReadOnlySortedMapTests.csproj", "{54E5CD41-18C4-497A-9DC3-DABF8BC38359}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,8 +7,8 @@
     <ProjectGuid>{1CE12383-6BFC-48DA-A1AB-CC694E61C220}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IReadOnlySortedMapTimeCurve</RootNamespace>
-    <AssemblyName>IReadOnlySortedMapTimeCurve</AssemblyName>
+    <RootNamespace>TimeReadOnlySortedMap</RootNamespace>
+    <AssemblyName>TimeReadOnlySortedMap</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

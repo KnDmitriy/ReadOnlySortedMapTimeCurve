@@ -1,10 +1,10 @@
 ﻿using System;
-using IReadOnlySortedMapTimeCurve;
+using TimeReadOnlySortedMap;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
 
-namespace ReadOnlySortedMapTimeCurveTests
+namespace TimeReadOnlySortedMapTests
 {
     [TestFixture]
     public class MathHelpersTests
@@ -67,7 +67,6 @@ namespace ReadOnlySortedMapTimeCurveTests
         [Test]
         public void ShouldThrowOutOfRangeExceptionDuringLinearInterpolation()
         {
-            //var pointX = new Processing.Common.Points.PointD
             // arrange
             // Искомое значение за пределами отрезка интерполяции. (Есть ли такое понятие, как отрезок интерполяции?)
             double experiment1X0 = 1000;
@@ -75,8 +74,6 @@ namespace ReadOnlySortedMapTimeCurveTests
             double experiment1X1 = 2000;
             double experiment1Y1 = 20000;
             double experiment1X = 500;
-
-            // act
 
             // assert
             Assert.Throws<ArgumentOutOfRangeException>(() => MathHelpers.InterpolateLinear(experiment1X, experiment1X0,

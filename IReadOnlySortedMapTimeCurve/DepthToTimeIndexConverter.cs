@@ -1,12 +1,6 @@
 ﻿using System;
 using Collections;
-using IReadOnlySortedMapTimeCurve;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using TimeReadOnlySortedMap;
 
 namespace ReadOnlySortedMapTimeCurve
 {
@@ -24,7 +18,7 @@ namespace ReadOnlySortedMapTimeCurve
                     minTicksFromLocalTime = DateTimeHelpers.GetMinTicksFromLocalTime(depthTicks);
                     break;
                 case TypeOfTimeCalculation.StartOfDay:
-                    minTicksFromLocalTime = DateTimeHelpers.GetMinTicksFromStartOfDay(depthTicks);
+                    minTicksFromLocalTime = DateTimeHelpers.GetStartOfDayInTicks(depthTicks);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type));
@@ -37,33 +31,31 @@ namespace ReadOnlySortedMapTimeCurve
                 throw new ArgumentNullException(nameof(depthValue));
             
             var result = new PieList<double, double>();
-            
-            for (var i = 0; i < depthValue.Count; i++)
+            for (var indexForDepthValue = 0; indexForDepthValue < depthValue.Count; indexForDepthValue++)
             {
-                double depth = depthValue[i].Key;
+                double depth = depthValue[indexForDepthValue].Key;
                 int index = depthTicks.BinarySearch(depth);
 
                 if (index >= 0)
                 {
-                    result.Insert(ToSeconds(depthTicks[index].Value - minTicksFromLocalTime), depthValue[i].Value);
+                    result.Insert((depthTicks[index].Value - minTicksFromLocalTime).ToSeconds(), depthValue[indexForDepthValue].Value);
                 }
                 else
                 {
-                    index = ~index; // Добавить проверки на index == 0 и index == depthTicksCurve.Count
+                    index = ~index; 
                     if (index == 0)
+                        result.Insert((depthTicks[0].Value - minTicksFromLocalTime).ToSeconds(), depthValue[0].Value);
+                    else if (index == depthValue.Count)
+                        result.Insert((depthTicks[depthTicks.Count - 1].Value - minTicksFromLocalTime).ToSeconds(), depthValue[depthValue.Count - 1].Value);
+                    else
                     {
-                        // result.Insert();
+                        double interpolatedTicks = MathHelpers.InterpolateLinear(depth, depthTicks[index - 1].Key,
+                            depthTicks[index - 1].Value, depthTicks[index].Key, depthTicks[index].Value);
+                        result.Insert((interpolatedTicks - minTicksFromLocalTime).ToSeconds(), depthValue[indexForDepthValue].Value);
                     }
-                    double interpolatedTicks = MathHelpers.InterpolateLinear(depth, depthTicks[index - 1].Key,
-                        depthTicks[index - 1].Value, depthTicks[index].Key, depthTicks[index].Value);
-                    result.Insert(interpolatedTicks - minTicksFromLocalTime, );// Разобраться!!!
                 }
             }            
             return result.ToSortedMap();
         }
-
-        private static double ToSeconds(long ticks)
-            => ticks / 10_000_000d;
-        
     }
 }

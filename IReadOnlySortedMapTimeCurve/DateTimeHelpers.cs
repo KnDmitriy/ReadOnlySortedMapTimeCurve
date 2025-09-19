@@ -2,13 +2,10 @@
 using Collections;
 using ReadOnlySortedMapTimeCurve;
 
-namespace IReadOnlySortedMapTimeCurve
+namespace TimeReadOnlySortedMap
 {
     public static class DateTimeHelpers
     {
-        private const long ticksPerSecond = 10_000_000;
-        private const double secondsPerTick = 1e-7;
-
         public static DateTime ToDateTime(this byte[] bytes)
         {
             if (bytes is null)
@@ -29,52 +26,21 @@ namespace IReadOnlySortedMapTimeCurve
             return BitConverter.GetBytes(ticks);
         }
 
-        //public static DateTime GetMinTicksFromDepthTicks(IReadOnlySortedMap<double, byte[]> curveLocalTime)
-        //{
-        //    if (curveLocalTime is null)
-        //        throw new ArgumentNullException(nameof(curveLocalTime));
-        //    if (curveLocalTime.Count < 1)
-        //        throw new ArgumentException("PieList mustn't be empty.");
-
-        //    // В curveLocalTime объекты даты и времени упорядочены.
-        //    // Значит минимальное значение даты и времени либо первое значение curveLocalTime, либо последнее.
-        //    DateTime firstDateTime = ToDateTime(curveLocalTime[0].Value);
-        //    DateTime lastDateTime = ToDateTime(curveLocalTime[curveLocalTime.Count - 1].Value);
-        //    DateTime minDateTime;
-        //    // Возможно нужна проверка на то, находится ли время в одном часовом поясе (за это отвечает свойство Kind).
-        //    // Хотя кривая называется "Местное время", значит, по идее, время уже указано в нужном часовом поясе. 
-        //    if (firstDateTime.CompareTo(lastDateTime) > 0)
-        //    {
-        //        minDateTime = lastDateTime;
-        //    }
-        //    else
-        //    {
-        //        minDateTime = firstDateTime;
-        //    }
-        //    return minDateTime;
-        //}
-
-        //public static double GetTicksFromStartOfCurve(IReadOnlySortedMap<double, byte[]> curveLocalTime)
-        //{
-        //    DateTime minDateTime = GetMinTicksFromDepthTicks(curveLocalTime);
-        //    return GetSecondsFromDateTime(minDateTime); 
-        //}
-
-        public static double GetTimeInSecondsFromStartOfDay(DateTime dateTime)
+        public static double ToSeconds(this long ticks)
         {
-            TimeSpan time = dateTime.TimeOfDay;
-            return time.TotalSeconds;
+            if (ticks < 0) throw new ArgumentOutOfRangeException(nameof(ticks));
+            return ticks / 10_000_000d;
         }
 
-        public static long GetTimeInTicksFromStartOfDay(long ticks)
+        public static double ToSeconds(this double ticks)
         {
-            TimeSpan time = new DateTime(ticks).TimeOfDay;
-            return time.Ticks;
+            if (ticks < 0) throw new ArgumentOutOfRangeException(nameof(ticks));
+            return ticks / 10_000_000d;
         }
 
-        public static double GetSecondsFromDateTime(DateTime minDateTime)
+        public static long GetStartOfDayInTicks(long ticks)
         {
-            return minDateTime.Ticks * secondsPerTick;
+            return new DateTime(ticks).Date.Ticks;
         }
 
         /// <summary>
@@ -89,26 +55,16 @@ namespace IReadOnlySortedMapTimeCurve
             if (depthTicksCurve is null)
                 throw new ArgumentNullException(nameof(depthTicksCurve));
             if (depthTicksCurve.Count < 1)
-                return long.MinValue;
+                return 0;
             long firstTicks = depthTicksCurve[0].Value;
             long lastTicks = depthTicksCurve[depthTicksCurve.Count - 1].Value;
             return Math.Min(firstTicks, lastTicks);
         }
 
-        public static long GetMinTicksFromStartOfDay(TicksFromByteArray depthTicksCurve)
+        public static long GetStartOfDayInTicks(TicksFromByteArray depthTicksCurve)
         {
             long minTicks = GetMinTicksFromLocalTime(depthTicksCurve);
-            return GetTimeInTicksFromStartOfDay(minTicks);
+            return GetStartOfDayInTicks(minTicks);
         }
-
-
-
-
-
-        //public static DateTime GetDateTimeFromStartOfCurve(IReadOnlySortedMap<double, byte[]> curveDepthTicks)
-        //{
-        //    return DateTimeHelpers.CreateFromByteArray(curveDepthTicks.);
-        //}
-
     }
 }
