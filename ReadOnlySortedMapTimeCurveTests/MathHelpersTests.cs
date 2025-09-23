@@ -9,6 +9,7 @@ namespace TimeReadOnlySortedMapTests
     [TestFixture]
     public class MathHelpersTests
     {
+        private const double tolerance = 1e-10;
         [Test]
         public void ShouldInterpolateLinear()
         {
@@ -33,8 +34,8 @@ namespace TimeReadOnlySortedMapTests
             double experiment2InterpolatedSeconds = MathHelpers.InterpolateLinear(experiment2X, experiment2X0,
                 experiment2Y0, experiment2X1, experiment2Y1);
 
-            ClassicAssert.AreEqual(experiment1Y, experiment3InterpolatedSeconds, 1e-10);
-            ClassicAssert.AreEqual(experiment2Y, experiment2InterpolatedSeconds, 1e-10);
+            ClassicAssert.AreEqual(experiment1Y, experiment3InterpolatedSeconds, tolerance);
+            ClassicAssert.AreEqual(experiment2Y, experiment2InterpolatedSeconds, tolerance);
         }
 
         [Test]
@@ -60,22 +61,20 @@ namespace TimeReadOnlySortedMapTests
             double experiment2InterpolatedSeconds = MathHelpers.InterpolateLinear(experiment2X, experiment2X0,
                experiment2Y0, experiment2X1, experiment2Y1);
 
-            ClassicAssert.AreEqual(experiment1Y, experiment1InterpolatedSeconds, 1e-10);
-            ClassicAssert.AreEqual(experiment2Y, experiment2InterpolatedSeconds, 1e-10);
+            ClassicAssert.AreEqual(experiment1Y, experiment1InterpolatedSeconds, tolerance);
+            ClassicAssert.AreEqual(experiment2Y, experiment2InterpolatedSeconds, tolerance);
         }
 
         [Test]
         public void ShouldThrowOutOfRangeExceptionDuringLinearInterpolation()
         {
-            // arrange
-            // Искомое значение за пределами отрезка интерполяции. (Есть ли такое понятие, как отрезок интерполяции?)
+            // Искомое значение за пределами отрезка интерполяции.
             double experiment1X0 = 1000;
             double experiment1Y0 = 10000;
             double experiment1X1 = 2000;
             double experiment1Y1 = 20000;
             double experiment1X = 500;
 
-            // assert
             Assert.Throws<ArgumentOutOfRangeException>(() => MathHelpers.InterpolateLinear(experiment1X, experiment1X0,
                 experiment1Y0, experiment1X1, experiment1Y1));
         }

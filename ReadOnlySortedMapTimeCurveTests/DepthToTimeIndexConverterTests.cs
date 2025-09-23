@@ -12,7 +12,7 @@ namespace TimeReadOnlySortedMapTests
     [TestFixture]
     public class DepthToTimeIndexConverterTests
     {
-        private const double tol = 1e-10;
+        private const double tolerance = 1e-10;
 
         [Test]
         public void ShouldThrowArgumentNullExceptionOnNullLocalTime()
@@ -36,15 +36,15 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldThrowArgumentNullExceptionOnConvert()
         {
-            var localTime = new Mock<IReadOnlySortedMap<double, byte[]>>();
-            localTime.Setup(l => l.Values).Returns(new List<byte[]>());
-            var converter = new DepthToTimeIndexConverter(localTime.Object, TypeOfTimeCalculation.LocalTimeMin);
+            var localTimeMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
+            localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
+            var converter = new DepthToTimeIndexConverter(localTimeMock.Object, TypeOfTimeCalculation.LocalTimeMin);
             Assert.Throws<ArgumentNullException>(() => converter.Convert(null));
-            converter = new DepthToTimeIndexConverter(localTime.Object, TypeOfTimeCalculation.StartOfDay);
+            converter = new DepthToTimeIndexConverter(localTimeMock.Object, TypeOfTimeCalculation.StartOfDay);
             Assert.Throws<ArgumentNullException>(() => converter.Convert(null));
         }
 
-        #region Convert on local time
+        #region Convert from local time min
 
         [Test]
         public void ShouldConvertRightOnLocalTimeMinWithIncreasingDateTime()
@@ -56,8 +56,8 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
-                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tolerance);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tolerance);
             }
         }
 
@@ -71,12 +71,14 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
-                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tolerance);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tolerance);
             }
         }
 
         #endregion
+
+        #region Convert on start of day
 
         [Test]
         public void ShouldConvertRightOnStartOfDayWithIncreasingDateTime()
@@ -88,8 +90,8 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
-                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tolerance);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tolerance);
             }
         }
 
@@ -103,9 +105,11 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
-                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tol);
-                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tol);
+                ClassicAssert.AreEqual(expectedResult[i].Key, obtainedResult[i].Key, tolerance);
+                ClassicAssert.AreEqual(expectedResult[i].Value, obtainedResult[i].Value, tolerance);
             }
         }
+
+        #endregion
     }
 }

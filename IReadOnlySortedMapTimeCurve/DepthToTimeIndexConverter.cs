@@ -1,17 +1,17 @@
 ﻿using System;
 using Collections;
-using TimeReadOnlySortedMap;
+using ReadOnlySortedMapTimeCurve;
 
-namespace ReadOnlySortedMapTimeCurve
+namespace TimeReadOnlySortedMap
 {
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
-        private readonly TicksFromByteArray depthTicks;
+        private readonly ByteArrayWrapper depthTicks;
         private readonly long minTicksFromLocalTime;
 
         public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime, TypeOfTimeCalculation type)
         {
-            depthTicks = new TicksFromByteArray(localTime) ?? throw new ArgumentNullException(nameof(localTime));
+            depthTicks = new ByteArrayWrapper(localTime) ?? throw new ArgumentNullException(nameof(localTime));
             switch (type)
             {
                 case TypeOfTimeCalculation.LocalTimeMin:
@@ -25,37 +25,52 @@ namespace ReadOnlySortedMapTimeCurve
             }
         }
         
-        public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> depthValue)
+        public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> valuesByDepth)
         {
-            if (depthValue is null)            
-                throw new ArgumentNullException(nameof(depthValue));
+            if (valuesByDepth is null)            
+                throw new ArgumentNullException(nameof(valuesByDepth));
             
             var result = new PieList<double, double>();
-            for (var indexForDepthValue = 0; indexForDepthValue < depthValue.Count; indexForDepthValue++)
-            {
-                double depth = depthValue[indexForDepthValue].Key;
-                int index = depthTicks.BinarySearch(depth);
 
-                if (index >= 0)
+            for (var i = 0; i < valuesByDepth.Count; i++)
+            {
+                double depth = valuesByDepth[i].Key;
+                int foundIndex = depthTicks.BinarySearch(depth);
+
+                double value = valuesByDepth[i].Value;
+                
+                double ticks;
+                
+                if (foundIndex >= 0)
                 {
-                    result.Insert((depthTicks[index].Value - minTicksFromLocalTime).ToSeconds(), depthValue[indexForDepthValue].Value);
+                    ticks = depthTicks[foundIndex].Value;                    
                 }
                 else
                 {
-                    index = ~index; 
-                    if (index == 0)
-                        result.Insert((depthTicks[0].Value - minTicksFromLocalTime).ToSeconds(), depthValue[0].Value);
-                    else if (index == depthValue.Count)
-                        result.Insert((depthTicks[depthTicks.Count - 1].Value - minTicksFromLocalTime).ToSeconds(), depthValue[depthValue.Count - 1].Value);
+                    foundIndex = ~foundIndex;
+                    if (foundIndex == 0)
+                    {
+                        ticks = depthTicks[0].Value;                        
+                    }
+                    else if (foundIndex == depthTicks.Count)
+                    {
+                        ticks = depthTicks[depthTicks.Count - 1].Value;                        
+                    }
                     else
                     {
-                        double interpolatedTicks = MathHelpers.InterpolateLinear(depth, depthTicks[index - 1].Key,
-                            depthTicks[index - 1].Value, depthTicks[index].Key, depthTicks[index].Value);
-                        result.Insert((interpolatedTicks - minTicksFromLocalTime).ToSeconds(), depthValue[indexForDepthValue].Value);
+                        var p0 = depthTicks[foundIndex - 1];
+                        var p1 = depthTicks[foundIndex];
+                        ticks = MathHelpers.InterpolateLinear(depth, p0.Key, p0.Value, p1.Key, p1.Value);                        
                     }
                 }
-            }            
+                result.Insert((ticks - minTicksFromLocalTime).ToSeconds(), value);
+            }
             return result.ToSortedMap();
+        }
+
+        private double GetTimeIndex(int foundIndex)
+        {
+            throw new NotImplementedException();
         }
     }
 }

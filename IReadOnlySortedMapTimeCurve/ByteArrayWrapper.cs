@@ -5,23 +5,22 @@ using Collections;
 
 namespace TimeReadOnlySortedMap
 {
-    public class TicksFromByteArray : IReadOnlySortedMap<double, long>
+    public class ByteArrayWrapper : IReadOnlySortedMap<double, long>
     {
-        private class TicksList : IReadOnlyList<long>
+        private sealed class TicksList : IReadOnlyList<long>
         {
             private readonly IReadOnlyList<byte[]> source;
 
             public TicksList(IReadOnlyList<byte[]> source)
             {
-                if (source is  null) 
-                    throw new ArgumentNullException(nameof(source));
-                for (int i = 0; i < source.Count; i++)
-                {
-                    if (source[i].Length != 8)
-                        throw new ArgumentException(
-                            $"The byte array in {nameof(source)} for element with index {i} has an incorrect size.");
-                }
-                this.source = source;
+                this.source = source ?? throw new ArgumentNullException(nameof(source));
+                
+                //for (int i = 0; i < source.Count; i++)
+                //{
+                //    if (source[i].Length != 8)
+                //        throw new ArgumentException(
+                //            $"The byte array in {nameof(source)} for element with index {i} has an incorrect size.");
+                //}                
             }
 
             public long this[int index]
@@ -48,10 +47,10 @@ namespace TimeReadOnlySortedMap
         private readonly IReadOnlySortedMap<double, byte[]> localTime;
         private readonly IReadOnlyList<long> ticksList;
 
-        public TicksFromByteArray(IReadOnlySortedMap<double, byte[]> localTime)
+        public ByteArrayWrapper(IReadOnlySortedMap<double, byte[]> localTime)
         {
             this.localTime = localTime ?? throw new ArgumentNullException(nameof(localTime));
-            ticksList = new TicksList(localTime.Values);
+            ticksList = new TicksList(localTime.Values);            
         }
 
         public long this[double key]
