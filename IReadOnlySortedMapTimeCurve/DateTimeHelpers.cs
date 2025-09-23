@@ -1,9 +1,11 @@
 ﻿using System;
+using Collections;
 
 namespace TimeReadOnlySortedMap
 {
     public static class DateTimeHelpers
     {
+        private const long ticksPerSecond = 10_000_000L;
         public static DateTime ToDateTime(this byte[] bytes)
         {
             if (bytes is null)
@@ -27,7 +29,7 @@ namespace TimeReadOnlySortedMap
             if (ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks));
             
-            return ticks / 10_000_000d;
+            return ticks / (double) ticksPerSecond;
         }
 
         public static double ToSeconds(this double ticks)
@@ -35,10 +37,10 @@ namespace TimeReadOnlySortedMap
             if (ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks));
             
-            return ticks / 10_000_000d;
+            return ticks / ticksPerSecond;
         }
        
-        public static long GetStartOfDayInTicks(ByteArrayWrapper depthTicks)
+        public static long GetStartOfDayInTicks(MapWithValuesTypeConverter<byte[], long> depthTicks)
         {
             long minTicks = GetMinTicksFromLocalTime(depthTicks);
             return GetStartOfDayInTicks(minTicks);
@@ -51,7 +53,7 @@ namespace TimeReadOnlySortedMap
         /// <returns>Минимальное количество тиков в кривой depthTicks. Если depthTicks не содержит элементов, 
         /// то возвращается long.MinValue.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static long GetMinTicksFromLocalTime(ByteArrayWrapper depthTicks)
+        public static long GetMinTicksFromLocalTime(MapWithValuesTypeConverter<byte[], long> depthTicks)
         {
             if (depthTicks is null)
                 throw new ArgumentNullException(nameof(depthTicks));

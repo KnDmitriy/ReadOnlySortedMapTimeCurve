@@ -6,14 +6,16 @@ namespace TimeReadOnlySortedMap
 {
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
-        
-        private readonly ByteArrayWrapper depthTicks;
+
+        //private readonly ByteArrayWrapper depthTicks;
+        private readonly MapWithValuesTypeConverter<byte[], long> depthTicks;
         private readonly long minTicksFromLocalTime;
 
         public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTime, TypeOfTimeCalculation type)
         {
-            //private MapWithValuesTypeConverter<byte[], long> byteArrayWrapper = new MapWithValuesTypeConverter<byte[], long>(localTime, (a) => BitConverter.ToInt64(a, 0));
-            depthTicks = new ByteArrayWrapper(localTime) ?? throw new ArgumentNullException(nameof(localTime));
+            //depthTicks = new ByteArrayWrapper(localTime) ?? throw new ArgumentNullException(nameof(localTime));
+            depthTicks = new MapWithValuesTypeConverter<byte[], long>(localTime, (a) => BitConverter.ToInt64(a, 0)) ?? 
+                throw new ArgumentNullException(nameof(localTime));
             switch (type)
             {
                 case TypeOfTimeCalculation.LocalTimeMin:
