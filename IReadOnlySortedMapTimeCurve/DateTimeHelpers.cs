@@ -14,14 +14,13 @@ namespace TimeReadOnlySortedMap
             if (bytes.Length != 8)
                 throw new ArgumentException("The byte array has incorrect size.");
 
-            var ticks = BitConverter.ToInt64(bytes, 0);            
+            var ticks = BitConverter.ToInt64(bytes, 0);
             return new DateTime(ticks);
         }
 
         public static byte[] ToByteArray(this DateTime dateTime)
         {
-            var ticks = dateTime.Ticks;
-            return BitConverter.GetBytes(ticks);
+            return BitConverter.GetBytes(dateTime.Ticks);
         }
 
         public static double ToSeconds(this long ticks)
@@ -29,7 +28,7 @@ namespace TimeReadOnlySortedMap
             if (ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks));
             
-            return ticks / (double) ticksPerSecond;
+            return ticks / (double)ticksPerSecond;
         }
 
         public static double ToSeconds(this double ticks)
@@ -40,20 +39,18 @@ namespace TimeReadOnlySortedMap
             return ticks / ticksPerSecond;
         }
        
-        public static long GetStartOfDayInTicks(ByteArrayWrapper depthTicks)
+        public static long GetStartOfDayFromTicks(ByteArrayWrapper depthTicks)
         {
-            long minTicks = GetMinTicksFromLocalTime(depthTicks);
-            return GetStartOfDayInTicks(minTicks);
+            return GetStartOfDay(GetMinTicks(depthTicks));
         }
 
          /// <summary>
         /// Находит и возвращает минимальное количество тиков в кривой.
         /// </summary>
         /// <param name="depthTicks"></param>
-        /// <returns>Минимальное количество тиков в кривой depthTicks. Если depthTicks не содержит элементов, 
-        /// то возвращается long.MinValue.</returns>
+        /// <returns>Минимальное количество тиков в кривой depthTicks</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static long GetMinTicksFromLocalTime(ByteArrayWrapper depthTicks)
+        public static long GetMinTicks(ByteArrayWrapper depthTicks)
         {
             if (depthTicks is null)
                 throw new ArgumentNullException(nameof(depthTicks));
@@ -66,9 +63,9 @@ namespace TimeReadOnlySortedMap
             return Math.Min(firstTicks, lastTicks);
         }
 
-        public static long GetStartOfDayInTicks(long ticks)
+        public static long GetStartOfDay(long timeInTicks)
         {
-            return new DateTime(ticks).Date.Ticks;
+            return new DateTime(timeInTicks).Date.Ticks;
         }                       
     }
 }

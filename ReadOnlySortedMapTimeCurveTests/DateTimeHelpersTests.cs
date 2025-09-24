@@ -83,10 +83,10 @@ namespace TimeReadOnlySortedMapTests
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[0].Value.ToDateTime().Ticks;
 
-            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicksFromLocalTime(null));
-            Assert.That(DateTimeHelpers.GetMinTicksFromLocalTime(ticksFromByteArrayMock),
+            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicks(null));
+            Assert.That(DateTimeHelpers.GetMinTicks(ticksFromByteArrayMock),
                Is.EqualTo(0));      
-            Assert.That(DateTimeHelpers.GetMinTicksFromLocalTime(ticksFromByteArray),
+            Assert.That(DateTimeHelpers.GetMinTicks(ticksFromByteArray),
                 Is.EqualTo(firstTicksFromLocalTime));
         }
 
@@ -99,14 +99,14 @@ namespace TimeReadOnlySortedMapTests
 
             var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
-            long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArray[0].Value);
+            long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDay(ticksFromByteArray[0].Value);
 
 
-            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayInTicks(null));
-            Assert.That(DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArrayMock),
+            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayFromTicks(null));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(ticksFromByteArrayMock),
                Is.EqualTo(0));
-            Assert.That(DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArray),
-                Is.EqualTo(DateTimeHelpers.GetStartOfDayInTicks(firstTicksFromLocalTime)));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(ticksFromByteArray),
+                Is.EqualTo(DateTimeHelpers.GetStartOfDay(firstTicksFromLocalTime)));
         }
 
         [Test]
@@ -120,10 +120,10 @@ namespace TimeReadOnlySortedMapTests
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[localTime.Count - 1].Value.ToDateTime().Ticks;
 
-            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicksFromLocalTime(null));
-            Assert.That(DateTimeHelpers.GetMinTicksFromLocalTime(ticksFromByteArrayMock),
+            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicks(null));
+            Assert.That(DateTimeHelpers.GetMinTicks(ticksFromByteArrayMock),
                Is.EqualTo(0));
-            Assert.That(DateTimeHelpers.GetMinTicksFromLocalTime(ticksFromByteArray),
+            Assert.That(DateTimeHelpers.GetMinTicks(ticksFromByteArray),
                 Is.EqualTo(firstTicksFromLocalTime));
         }
 
@@ -136,15 +136,15 @@ namespace TimeReadOnlySortedMapTests
 
             var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
-            long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDayInTicks(
+            long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDay(
                 ticksFromByteArray[ticksFromByteArray.Count - 1].Value);
 
 
-            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayInTicks(null));
-            Assert.That(DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArrayMock),
+            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayFromTicks(null));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(ticksFromByteArrayMock),
                Is.EqualTo(0));
-            Assert.That(DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArray),
-                Is.EqualTo(DateTimeHelpers.GetStartOfDayInTicks(firstTicksFromLocalTime)));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(ticksFromByteArray),
+                Is.EqualTo(DateTimeHelpers.GetStartOfDay(firstTicksFromLocalTime)));
         }
     }    
 }

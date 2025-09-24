@@ -82,11 +82,10 @@
     <Compile Include="DateTimeHelpers.cs" />
     <Compile Include="DepthToTimeIndexConverter.cs" />
     <Compile Include="IDepthToTimeIndexConverter.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="MathHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ByteArrayWrapper.cs" />
-    <Compile Include="TypeOfTimeCalculation.cs" />
+    <Compile Include="TimeOrigin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

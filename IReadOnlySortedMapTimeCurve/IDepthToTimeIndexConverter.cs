@@ -4,6 +4,6 @@ namespace TimeReadOnlySortedMap
 {
     public interface IDepthToTimeIndexConverter
     {
-        IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> source);
+        IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> valuesByDepthMap);
     }
 }
