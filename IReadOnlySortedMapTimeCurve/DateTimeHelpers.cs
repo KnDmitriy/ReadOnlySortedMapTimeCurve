@@ -39,27 +39,27 @@ namespace TimeReadOnlySortedMap
             return ticks / ticksPerSecond;
         }
        
-        public static long GetStartOfDayFromTicks(ByteArrayWrapper depthTicks)
+        public static long GetStartOfDayFromTicks(ByteArrayWrapper ticksByDepthMap)
         {
-            return GetStartOfDay(GetMinTicks(depthTicks));
+            return GetStartOfDay(GetMinTicks(ticksByDepthMap));
         }
 
          /// <summary>
         /// Находит и возвращает минимальное количество тиков в кривой.
         /// </summary>
-        /// <param name="depthTicks"></param>
+        /// <param name="ticksByDepthMap"></param>
         /// <returns>Минимальное количество тиков в кривой depthTicks</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static long GetMinTicks(ByteArrayWrapper depthTicks)
+        public static long GetMinTicks(ByteArrayWrapper ticksByDepthMap)
         {
-            if (depthTicks is null)
-                throw new ArgumentNullException(nameof(depthTicks));
+            if (ticksByDepthMap is null)
+                throw new ArgumentNullException(nameof(ticksByDepthMap));
 
-            if (depthTicks.Count < 1)
+            if (ticksByDepthMap.Count < 1)
                 return 0;
 
-            long firstTicks = depthTicks[0].Value;
-            long lastTicks = depthTicks[depthTicks.Count - 1].Value;
+            long firstTicks = ticksByDepthMap[0].Value;
+            long lastTicks = ticksByDepthMap[ticksByDepthMap.Count - 1].Value;
             return Math.Min(firstTicks, lastTicks);
         }
 
