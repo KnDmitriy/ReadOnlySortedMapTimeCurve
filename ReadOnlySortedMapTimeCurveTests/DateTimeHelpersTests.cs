@@ -11,7 +11,6 @@ namespace TimeReadOnlySortedMapTests
     public class DateTimeHelpersTests
     {
         private const long ticksPerSecond = 10_000_000L;
-        private readonly Func<byte[], long> ToTicksFromByteArray =  ((a) => BitConverter.ToInt64(a, 0));
 
         [Test]
         public void ShouldThrowArgumentNullException()
