@@ -40,7 +40,7 @@ namespace TimeReadOnlySortedMap
             return ticks / ticksPerSecond;
         }
        
-        public static long GetStartOfDayInTicks(MapWithValuesTypeConverter<byte[], long> depthTicks)
+        public static long GetStartOfDayInTicks(ByteArrayWrapper depthTicks)
         {
             long minTicks = GetMinTicksFromLocalTime(depthTicks);
             return GetStartOfDayInTicks(minTicks);
@@ -53,7 +53,7 @@ namespace TimeReadOnlySortedMap
         /// <returns>Минимальное количество тиков в кривой depthTicks. Если depthTicks не содержит элементов, 
         /// то возвращается long.MinValue.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static long GetMinTicksFromLocalTime(MapWithValuesTypeConverter<byte[], long> depthTicks)
+        public static long GetMinTicksFromLocalTime(ByteArrayWrapper depthTicks)
         {
             if (depthTicks is null)
                 throw new ArgumentNullException(nameof(depthTicks));

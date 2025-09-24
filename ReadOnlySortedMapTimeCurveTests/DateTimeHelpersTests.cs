@@ -77,12 +77,10 @@ namespace TimeReadOnlySortedMapTests
         {
             var localTimeMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
-            var ticksFromByteArrayMock = new MapWithValuesTypeConverter<byte[], long>(
-                localTimeMock.Object, ToTicksFromByteArray);
+            var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
             var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
-            var ticksFromByteArray = new MapWithValuesTypeConverter<byte[], long>(
-                localTime.ToSortedMap(), ToTicksFromByteArray);
+            var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[0].Value.ToDateTime().Ticks;
 
             Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicksFromLocalTime(null));
@@ -97,12 +95,10 @@ namespace TimeReadOnlySortedMapTests
         {
             var localTimeMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
-            var ticksFromByteArrayMock = new MapWithValuesTypeConverter<byte[], long>(
-                localTimeMock.Object, ToTicksFromByteArray);
+            var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
             var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
-            var ticksFromByteArray = new MapWithValuesTypeConverter<byte[], long>(
-                localTime.ToSortedMap(), ToTicksFromByteArray);
+            var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDayInTicks(ticksFromByteArray[0].Value);
 
 
@@ -118,12 +114,10 @@ namespace TimeReadOnlySortedMapTests
         {
             var localTimeMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
-            var ticksFromByteArrayMock = new MapWithValuesTypeConverter<byte[], long>(
-                localTimeMock.Object, ToTicksFromByteArray);
+            var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
             var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
-            var ticksFromByteArray = new MapWithValuesTypeConverter<byte[], long>(
-                localTime.ToSortedMap(), ToTicksFromByteArray);
+            var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[localTime.Count - 1].Value.ToDateTime().Ticks;
 
             Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicksFromLocalTime(null));
@@ -138,12 +132,10 @@ namespace TimeReadOnlySortedMapTests
         {
             var localTimeMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
-            var ticksFromByteArrayMock = new MapWithValuesTypeConverter<byte[], long>(
-                localTimeMock.Object, ToTicksFromByteArray);
+            var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
             var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
-            var ticksFromByteArray = new MapWithValuesTypeConverter<byte[], long>(
-                localTime.ToSortedMap(), ToTicksFromByteArray);
+            var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDayInTicks(
                 ticksFromByteArray[ticksFromByteArray.Count - 1].Value);
 
