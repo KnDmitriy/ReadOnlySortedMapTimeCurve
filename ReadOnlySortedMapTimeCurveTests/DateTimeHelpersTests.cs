@@ -78,7 +78,7 @@ namespace TimeReadOnlySortedMapTests
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
             var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
-            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[0].Value.ToDateTime().Ticks;
 
@@ -96,7 +96,7 @@ namespace TimeReadOnlySortedMapTests
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
             var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
-            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDay(ticksFromByteArray[0].Value);
 
@@ -115,7 +115,7 @@ namespace TimeReadOnlySortedMapTests
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
             var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
-            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = localTime[localTime.Count - 1].Value.ToDateTime().Ticks;
 
@@ -133,7 +133,7 @@ namespace TimeReadOnlySortedMapTests
             localTimeMock.Setup(l => l.Values).Returns(new List<byte[]>());
             var ticksFromByteArrayMock = new ByteArrayWrapper(localTimeMock.Object);
 
-            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var ticksFromByteArray = new ByteArrayWrapper(localTime.ToSortedMap());
             long firstTicksFromLocalTime = DateTimeHelpers.GetStartOfDay(
                 ticksFromByteArray[ticksFromByteArray.Count - 1].Value);

@@ -8,7 +8,7 @@ namespace TimeReadOnlySortedMap
         private const long ticksPerDay = 864_000_000_000L;
         private const long secondsPerDay = 86_400L;
 
-        public static PieList<double, byte[]> GetLocalTimeWithIncreasingDateTime()
+        public static PieList<double, byte[]> GetLocalTimeMapWithIncreasingDateTime()
         {
             var result = new PieList<double, byte[]>();
             result.Insert(1000, DateTimeHelpers.ToByteArray(new DateTime((long)(ticksPerDay * 1.8))));
@@ -20,7 +20,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, byte[]> GetLocalTimeWithDecreasingDateTime()
+        public static PieList<double, byte[]> GetLocalTimeMapWithDecreasingDateTime()
         {
             var result = new PieList<double, byte[]>();
             result.Insert(1000, DateTimeHelpers.ToByteArray(new DateTime((long)(ticksPerDay * 2.2))));

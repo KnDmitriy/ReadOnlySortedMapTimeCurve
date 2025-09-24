@@ -48,7 +48,7 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldConvertRightOnLocalTimeMinWithIncreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TimeOrigin.StartTime);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
             var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromLocalTimeMin();
@@ -63,7 +63,7 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldConvertRightOnLocalTimeMinWithDecreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TimeOrigin.StartTime);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
             var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromLocalTimeMin();
@@ -82,7 +82,7 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldConvertRightOnStartOfDayWithIncreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeWithIncreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TimeOrigin.StartOfDay);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
             var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromStartOfDay();
@@ -97,7 +97,7 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldConvertRightOnStartOfDayWithDecreasingDateTime()
         {
-            var localTime = TestCurvesHelper.GetLocalTimeWithDecreasingDateTime();
+            var localTime = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTime.ToSortedMap(), TimeOrigin.StartOfDay);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
             var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromStartOfDay();
