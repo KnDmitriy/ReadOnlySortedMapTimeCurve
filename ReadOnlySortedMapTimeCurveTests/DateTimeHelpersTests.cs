@@ -72,7 +72,7 @@ namespace TimeReadOnlySortedMapTests
 
 
         [Test]
-        public void ShouldGetMinTicksFromLocalTimeMapWithIncreasingDateTime()
+        public void ShouldRightGetMinTicksFromLocalTimeMapWithIncreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
@@ -90,26 +90,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldGetMinTicksFromLocalTimeMapFromStartOfDayWithIncreasingDateTime()
-        {
-            var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
-            localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
-            var byteArrayWrapperMock = new ByteArrayWrapper(localTimeMapMock.Object);
-
-            var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
-            var byteArrayWrapper = new ByteArrayWrapper(localTimeMap.ToSortedMap());
-            long firstTicksFromLocalTimeMap = DateTimeHelpers.GetStartOfDay(byteArrayWrapper[0].Value);
-
-
-            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayFromTicks(null));
-            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(byteArrayWrapperMock),
-               Is.EqualTo(0));
-            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(byteArrayWrapper),
-                Is.EqualTo(DateTimeHelpers.GetStartOfDay(firstTicksFromLocalTimeMap)));
-        }
-
-        [Test]
-        public void ShouldGetMinTicksFromLocalTimeMapWithDecreasingDateTime()
+        public void ShouldRightGetMinTicksFromLocalTimeMapWithDecreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
@@ -127,7 +108,26 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldGetMinTicksFromLocalTimeMapFromStartOfDayWithDecreasingDateTime()
+        public void ShouldRightGetStartOfDayFromLocalTimeMapWithIncreasingDateTime()
+        {
+            var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
+            localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
+            var byteArrayWrapperMock = new ByteArrayWrapper(localTimeMapMock.Object);
+
+            var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
+            var byteArrayWrapper = new ByteArrayWrapper(localTimeMap.ToSortedMap());
+            long firstTicksFromLocalTimeMap = DateTimeHelpers.GetStartOfDay(byteArrayWrapper[0].Value);
+
+
+            Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetStartOfDayFromTicks(null));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(byteArrayWrapperMock),
+                Is.EqualTo(0));
+            Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(byteArrayWrapper),
+                Is.EqualTo(DateTimeHelpers.GetStartOfDay(firstTicksFromLocalTimeMap)));
+        }
+
+        [Test]
+        public void ShouldRightGetStartOfDayFromLocalTimeMapWithDecreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
