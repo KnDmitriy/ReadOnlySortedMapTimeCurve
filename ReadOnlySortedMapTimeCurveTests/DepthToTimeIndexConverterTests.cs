@@ -46,7 +46,7 @@ namespace TimeReadOnlySortedMapTests
         #region Convert from local time min
 
         [Test]
-        public void ShouldConvertRightOnLocalTimeMapMinWithIncreasingDateTime()
+        public void ShouldConvertRightFromStartTimeWithIncreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartTime);
@@ -61,7 +61,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldConvertRightOnLocalTimeMapMinWithDecreasingDateTime()
+        public void ShouldConvertRightFromStartTimeWithDecreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartTime);
@@ -80,7 +80,7 @@ namespace TimeReadOnlySortedMapTests
         #region Convert on start of day
 
         [Test]
-        public void ShouldConvertRightOnStartOfDayWithIncreasingDateTime()
+        public void ShouldConvertRightFromStartOfDayWithIncreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartOfDay);
@@ -95,7 +95,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldConvertRightOnStartOfDayWithDecreasingDateTime()
+        public void ShouldConvertRightFromStartOfDayWithDecreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartOfDay);
