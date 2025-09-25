@@ -12,8 +12,8 @@
     <ProjectGuid>{54E5CD41-18C4-497A-9DC3-DABF8BC38359}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReadOnlySortedMapTimeCurveTests</RootNamespace>
-    <AssemblyName>ReadOnlySortedMapTimeCurveTests</AssemblyName>
+    <RootNamespace>TimeReadOnlySortedMapTests</RootNamespace>
+    <AssemblyName>TimeReadOnlySortedMapTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
