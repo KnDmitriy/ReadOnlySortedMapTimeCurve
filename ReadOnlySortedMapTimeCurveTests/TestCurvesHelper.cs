@@ -46,7 +46,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, double> GetSecondsValueWithIncreasingDateTimeFromLocalTimeMin()
+        public static PieList<double, double> GetValuesBySecondsWithIncreasingDateTimeFromStartTime()
         {
             var result = new PieList<double, double>();
             result.Insert(secondsPerDay * 0, -2.5);
@@ -59,7 +59,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, double> GetSecondsValueWithDecreasingDateTimeFromLocalTimeMin()
+        public static PieList<double, double> GetValuesBySecondsWithDecreasingDateTimeFromStartTime()
         {
             var result = new PieList<double, double>();
             result.Insert(secondsPerDay * 0.4, -2.5);
@@ -72,7 +72,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, double> GetSecondsValueWithIncreasingDateTimeFromStartOfDay()
+        public static PieList<double, double> GetValuesBySecondsWithIncreasingDateTimeFromStartOfDay()
         {
             var result = new PieList<double, double>();
             result.Insert(secondsPerDay * 0.8, -2.5);
@@ -85,7 +85,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, double> GetSecondsValueWithDecreasingDateTimeFromStartOfDay()
+        public static PieList<double, double> GetValuesBySecondsWithDecreasingDateTimeFromStartOfDay()
         {
             var result = new PieList<double, double>();
             result.Insert(secondsPerDay * 1.2, -2.5);

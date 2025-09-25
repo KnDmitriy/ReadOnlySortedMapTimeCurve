@@ -51,7 +51,7 @@ namespace TimeReadOnlySortedMapTests
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartTime);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromLocalTimeMin();
+            var expectedResult = TestCurvesHelper.GetValuesBySecondsWithIncreasingDateTimeFromStartTime();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
@@ -66,7 +66,7 @@ namespace TimeReadOnlySortedMapTests
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartTime);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromLocalTimeMin();
+            var expectedResult = TestCurvesHelper.GetValuesBySecondsWithDecreasingDateTimeFromStartTime();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
@@ -85,7 +85,7 @@ namespace TimeReadOnlySortedMapTests
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartOfDay);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetSecondsValueWithIncreasingDateTimeFromStartOfDay();
+            var expectedResult = TestCurvesHelper.GetValuesBySecondsWithIncreasingDateTimeFromStartOfDay();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
@@ -100,7 +100,7 @@ namespace TimeReadOnlySortedMapTests
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var converter = new DepthToTimeIndexConverter(localTimeMap.ToSortedMap(), TimeOrigin.StartOfDay);
             var obtainedResult = converter.Convert(TestCurvesHelper.GetDepthValue().ToSortedMap());
-            var expectedResult = TestCurvesHelper.GetSecondsValueWithDecreasingDateTimeFromStartOfDay();
+            var expectedResult = TestCurvesHelper.GetValuesBySecondsWithDecreasingDateTimeFromStartOfDay();
             Assert.That(obtainedResult, Is.Not.Null);
             for (var i = 0; i < obtainedResult.Count; i++)
             {
