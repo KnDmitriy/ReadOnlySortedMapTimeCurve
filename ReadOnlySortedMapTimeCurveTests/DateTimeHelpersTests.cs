@@ -45,7 +45,7 @@ namespace TimeReadOnlySortedMapTests
         [Test]
         public void ShouldGetDataFromCurve()
         {
-            var valueByDepthMap = TestCurvesHelper.GetDepthValue();
+            var valueByDepthMap = TestCurvesHelper.GetValuesByDepth();
 
             double? key = valueByDepthMap[0].Key;
             double? val = valueByDepthMap[0].Value;

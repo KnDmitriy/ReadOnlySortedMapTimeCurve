@@ -32,7 +32,7 @@ namespace TimeReadOnlySortedMap
             return result;
         }
 
-        public static PieList<double, double> GetDepthValue()
+        public static PieList<double, double> GetValuesByDepth()
         {
             var result = new PieList<double, double>();
 
