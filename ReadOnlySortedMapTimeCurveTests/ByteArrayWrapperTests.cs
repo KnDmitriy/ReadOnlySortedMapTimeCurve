@@ -86,7 +86,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldBinarySearchInlocalTimeMapWithIncreasingDateTime()
+        public void ShouldBinarySearchInLocalTimeMapWithIncreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithIncreasingDateTime();
             var testedObject = new ByteArrayWrapper(localTimeMap.ToSortedMap());
@@ -108,7 +108,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldBinarySearchInlocalTimeMapWithDecreasingDateTime()
+        public void ShouldBinarySearchInLocalTimeMapWithDecreasingDateTime()
         {
             var localTimeMap = TestCurvesHelper.GetLocalTimeMapWithDecreasingDateTime();
             var testedObject = new ByteArrayWrapper(localTimeMap.ToSortedMap());

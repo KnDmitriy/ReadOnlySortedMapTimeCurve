@@ -90,7 +90,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldGetMinTicksFromlocalTimeMapFromStartOfDayWithIncreasingDateTime()
+        public void ShouldGetMinTicksFromLocalTimeMapFromStartOfDayWithIncreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
@@ -109,7 +109,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldGetMinTicksFromlocalTimeMapWithDecreasingDateTime()
+        public void ShouldGetMinTicksFromLocalTimeMapWithDecreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
@@ -127,7 +127,7 @@ namespace TimeReadOnlySortedMapTests
         }
 
         [Test]
-        public void ShouldGetMinTicksFromlocalTimeMapFromStartOfDayWithDecreasingDateTime()
+        public void ShouldGetMinTicksFromLocalTimeMapFromStartOfDayWithDecreasingDateTime()
         {
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
