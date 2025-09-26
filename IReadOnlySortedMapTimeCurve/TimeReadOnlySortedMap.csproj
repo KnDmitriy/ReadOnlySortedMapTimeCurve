@@ -40,6 +40,10 @@
     <Reference Include="ICSharpCode.Decompiler, Version=9.1.0.7988, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
       <HintPath>..\packages\ICSharpCode.Decompiler.9.1.0.7988\lib\netstandard2.0\ICSharpCode.Decompiler.dll</HintPath>
     </Reference>
+    <Reference Include="Localization">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Localization.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="MathLib">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\MathLib.dll</HintPath>
     </Reference>

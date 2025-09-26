@@ -8,11 +8,13 @@
         /// <summary>
         /// Наименьшее время в кривой.
         /// </summary>
+        [Localization.AlternativeMemberName("Время начала исследования")]
         StartTime,
 
         /// <summary>
         /// Начало дня для наименьшего времени в кривой.
         /// </summary>
-        StartOfDay
+        [Localization.AlternativeMemberName("День начала исследования")]
+        StartOfDay,
     }
 }
