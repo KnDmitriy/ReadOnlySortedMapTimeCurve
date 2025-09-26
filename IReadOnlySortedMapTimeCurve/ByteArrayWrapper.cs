@@ -13,14 +13,7 @@ namespace TimeReadOnlySortedMap
 
             public TicksList(IReadOnlyList<byte[]> source)
             {
-                this.source = source ?? throw new ArgumentNullException(nameof(source));
-                
-                //for (int i = 0; i < source.Count; i++)
-                //{
-                //    if (source[i].Length != 8)
-                //        throw new ArgumentException(
-                //            $"The byte array in {nameof(source)} for element with index {i} has an incorrect size.");
-                //}                
+                this.source = source ?? throw new ArgumentNullException(nameof(source));       
             }
 
             public long this[int index]
