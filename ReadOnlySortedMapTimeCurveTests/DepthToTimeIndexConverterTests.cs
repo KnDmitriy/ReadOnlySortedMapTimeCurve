@@ -38,9 +38,9 @@ namespace TimeReadOnlySortedMapTests
             var localTimeMapMock = new Mock<IReadOnlySortedMap<double, byte[]>>();
             localTimeMapMock.Setup(l => l.Values).Returns(new List<byte[]>());
             var converter = new DepthToTimeIndexConverter(localTimeMapMock.Object, TimeOrigin.StartTime);
-            Assert.Throws<ArgumentNullException>(() => converter.Convert(null));
+            Assert.Throws<ArgumentNullException>(() => converter.Convert<double>(null));
             converter = new DepthToTimeIndexConverter(localTimeMapMock.Object, TimeOrigin.StartOfDay);
-            Assert.Throws<ArgumentNullException>(() => converter.Convert(null));
+            Assert.Throws<ArgumentNullException>(() => converter.Convert<double>(null));
         }
 
         #region Convert from local time min
