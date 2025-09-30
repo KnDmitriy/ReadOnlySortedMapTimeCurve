@@ -40,16 +40,6 @@ namespace TimeReadOnlySortedMap
                 
                 double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
                 double key = (ticks - minTicksFromLocalTime).ToSeconds();
-                if (value is Format.RecordWaveValue waveValue)
-                {
-                    RecordItemValue newValue = new RecordWaveValue(key)
-                    {
-                        Delay = waveValue.Delay,
-                        Step = waveValue.Step,
-                        Values = waveValue.Values,
-                    };
-                    value = (T)(object)newValue;
-                }
                 result.Insert(key, value);
             }
             return result.ToSortedMap();
@@ -57,7 +47,31 @@ namespace TimeReadOnlySortedMap
 
         public IReadOnlySortedMap<double, RecordWaveValue> Convert(IReadOnlySortedMap<double, RecordWaveValue> valuesByDepthMap)
         {
-            throw new NotImplementedException();
+            if (valuesByDepthMap is null)
+                throw new ArgumentNullException(nameof(valuesByDepthMap));
+
+            var result = new PieList<double, RecordWaveValue>();
+
+            for (var i = 0; i < valuesByDepthMap.Count; i++)
+            {
+                double depth = valuesByDepthMap[i].Key;
+                RecordWaveValue value = valuesByDepthMap[i].Value;
+                int foundIndex = ticksByDepthMap.BinarySearch(depth);
+
+                double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
+                double key = (ticks - minTicksFromLocalTime).ToSeconds();
+
+                var newValue = new RecordWaveValue(key)
+                {
+                    Delay = value.Delay,
+                    Step = value.Step,
+                    Values = value.Values,
+                };
+                value = newValue;
+                
+                result.Insert(key, value);
+            }
+            return result.ToSortedMap();
         }
 
         private double GetTicksByBinarySearchIndex(int foundIndex, double depth)
