@@ -44,6 +44,10 @@
     <Reference Include="Collections">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Format, Version=3.1.11738.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Format.dll</HintPath>
+    </Reference>
     <Reference Include="MathLib">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\MathLib.dll</HintPath>
     </Reference>
