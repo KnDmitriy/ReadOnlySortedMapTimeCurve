@@ -24,17 +24,17 @@ namespace TimeReadOnlySortedMap
             }
         }
         
-        public IReadOnlySortedMap<double, double> Convert(IReadOnlySortedMap<double, double> valuesByDepthMap)
+        public IReadOnlySortedMap<double, T> Convert<T>(IReadOnlySortedMap<double, T> valuesByDepthMap)
         {
             if (valuesByDepthMap is null)            
                 throw new ArgumentNullException(nameof(valuesByDepthMap));
             
-            var result = new PieList<double, double>();
+            var result = new PieList<double, T>();
 
             for (var i = 0; i < valuesByDepthMap.Count; i++)
             {
                 double depth = valuesByDepthMap[i].Key;
-                double value = valuesByDepthMap[i].Value;
+                T value = valuesByDepthMap[i].Value;
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
                 
                 double ticks;
