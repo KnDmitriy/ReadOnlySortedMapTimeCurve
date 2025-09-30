@@ -1,5 +1,6 @@
 ﻿using System;
 using Collections;
+using Format;
 
 namespace TimeReadOnlySortedMap
 {
@@ -37,33 +38,54 @@ namespace TimeReadOnlySortedMap
                 T value = valuesByDepthMap[i].Value;
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
                 
-                double ticks;
-                
-                if (foundIndex >= 0) // Значение глубины найдено
+                double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
+                double key = (ticks - minTicksFromLocalTime).ToSeconds();
+                if (value is Format.RecordWaveValue waveValue)
                 {
-                    ticks = ticksByDepthMap[foundIndex].Value;
+                    RecordItemValue newValue = new RecordWaveValue(key)
+                    {
+                        Delay = waveValue.Delay,
+                        Step = waveValue.Step,
+                        Values = waveValue.Values,
+                    };
+                    value = (T)(object)newValue;
                 }
-                else // Значение глубины не найдено, определяем корректное значение
-                {
-                    foundIndex = ~foundIndex;
-                    if (foundIndex == 0) // Значение глубины меньше минимальной глубины
-                    {
-                        ticks = ticksByDepthMap[0].Value;
-                    }
-                    else if (foundIndex == ticksByDepthMap.Count) // Значение глубины больше максимальной глубины
-                    {
-                        ticks = ticksByDepthMap[ticksByDepthMap.Count - 1].Value;
-                    }
-                    else // Значение глубины не выходит за пределы значений глубин
-                    {
-                        var p0 = ticksByDepthMap[foundIndex - 1];
-                        var p1 = ticksByDepthMap[foundIndex];
-                        ticks = MathHelpers.InterpolateLinear(depth, p0.Key, p0.Value, p1.Key, p1.Value);
-                    }
-                }
-                result.Insert((ticks - minTicksFromLocalTime).ToSeconds(), value);
+                result.Insert(key, value);
             }
             return result.ToSortedMap();
+        }
+
+        public IReadOnlySortedMap<double, RecordWaveValue> Convert(IReadOnlySortedMap<double, RecordWaveValue> valuesByDepthMap)
+        {
+            throw new NotImplementedException();
+        }
+
+        private double GetTicksByBinarySearchIndex(int foundIndex, double depth)
+        {
+            double ticks;
+            if (foundIndex >= 0) // Значение глубины найдено
+            {
+                ticks = ticksByDepthMap[foundIndex].Value;
+            }
+            else // Значение глубины не найдено, определяем корректное значение
+            {
+                foundIndex = ~foundIndex;
+                if (foundIndex == 0) // Значение глубины меньше минимальной глубины
+                {
+                    ticks = ticksByDepthMap[0].Value;
+                }
+                else if (foundIndex == ticksByDepthMap.Count) // Значение глубины больше максимальной глубины
+                {
+                    ticks = ticksByDepthMap[ticksByDepthMap.Count - 1].Value;
+                }
+                else // Значение глубины не выходит за пределы значений глубин
+                {
+                    var p0 = ticksByDepthMap[foundIndex - 1];
+                    var p1 = ticksByDepthMap[foundIndex];
+                    ticks = MathHelpers.InterpolateLinear(depth, p0.Key, p0.Value, p1.Key, p1.Value);
+                }
+            }
+            return ticks;
         }
     }
 }
