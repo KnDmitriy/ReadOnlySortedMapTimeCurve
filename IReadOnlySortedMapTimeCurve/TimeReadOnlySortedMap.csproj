@@ -37,6 +37,9 @@
     <Reference Include="Collections">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Format">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\GeoFT\Оптимус\Format.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.Decompiler, Version=9.1.0.7988, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
       <HintPath>..\packages\ICSharpCode.Decompiler.9.1.0.7988\lib\netstandard2.0\ICSharpCode.Decompiler.dll</HintPath>
     </Reference>
