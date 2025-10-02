@@ -15,7 +15,7 @@ namespace TimeReadOnlySortedMapTests
 
         [Test]
         public void ShouldThrowNullExceptionOnInitializationByteArrayWrapper()
-        {            
+        {
             Assert.Throws<ArgumentNullException>(() => new ByteArrayWrapper(null));
         }
 
@@ -99,11 +99,11 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(localTimeMap.BinarySearch(key - 0.1),
                 Is.EqualTo(testedObject.BinarySearch(key - 0.1)));
 
-            Assert.That(localTimeMap.BinarySearch(double.MinValue), 
+            Assert.That(localTimeMap.BinarySearch(double.MinValue),
                 Is.EqualTo(testedObject.BinarySearch(double.MinValue)));
-            Assert.That(localTimeMap.BinarySearch(double.MaxValue), 
+            Assert.That(localTimeMap.BinarySearch(double.MaxValue),
                 Is.EqualTo(testedObject.BinarySearch(double.MaxValue)));
-            Assert.That(localTimeMap.BinarySearch(double.NegativeInfinity), 
+            Assert.That(localTimeMap.BinarySearch(double.NegativeInfinity),
                 Is.EqualTo(testedObject.BinarySearch(double.NegativeInfinity)));
         }
 
@@ -141,7 +141,7 @@ namespace TimeReadOnlySortedMapTests
 
             var testedObject = new ByteArrayWrapper(localTimeMapMock.Object);
             Assert.That(testedObject.ContainsKey(key2), Is.EqualTo(localTimeMapMock.Object.ContainsKey(key2)));
-            Assert.That(testedObject.ContainsKey(nonExistingKey), 
+            Assert.That(testedObject.ContainsKey(nonExistingKey),
                 Is.EqualTo(localTimeMapMock.Object.ContainsKey(nonExistingKey)));
         }
 

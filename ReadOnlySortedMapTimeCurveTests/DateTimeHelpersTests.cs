@@ -22,7 +22,7 @@ namespace TimeReadOnlySortedMapTests
         public void ShouldBeRightArraySize()
         {
             byte[] byteArray = new byte[4];
-            Assert.Throws<ArgumentException> (() => DateTimeHelpers.ToDateTime(byteArray), "Byte array is wrong");
+            Assert.Throws<ArgumentException>(() => DateTimeHelpers.ToDateTime(byteArray), "Byte array is wrong");
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace TimeReadOnlySortedMapTests
 
             Assert.Throws<ArgumentNullException>(() => DateTimeHelpers.GetMinTicks(null));
             Assert.That(DateTimeHelpers.GetMinTicks(byteArrayWrapperMock),
-               Is.EqualTo(0));      
+               Is.EqualTo(0));
             Assert.That(DateTimeHelpers.GetMinTicks(byteArrayWrapper),
                 Is.EqualTo(firstTicksFromLocalTimeMap));
         }
@@ -145,5 +145,5 @@ namespace TimeReadOnlySortedMapTests
             Assert.That(DateTimeHelpers.GetStartOfDayFromTicks(byteArrayWrapper),
                 Is.EqualTo(DateTimeHelpers.GetStartOfDay(firstTicksFromLocalTimeMap)));
         }
-    }    
+    }
 }

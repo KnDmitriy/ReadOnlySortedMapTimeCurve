@@ -27,7 +27,7 @@ namespace TimeReadOnlySortedMap
         {
             if (ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks));
-            
+
             return ticks / (double)ticksPerSecond;
         }
 
@@ -35,16 +35,16 @@ namespace TimeReadOnlySortedMap
         {
             if (ticks < 0)
                 throw new ArgumentOutOfRangeException(nameof(ticks));
-            
+
             return ticks / ticksPerSecond;
         }
-       
+
         public static long GetStartOfDayFromTicks(ByteArrayWrapper ticksByDepthMap)
         {
             return GetStartOfDay(GetMinTicks(ticksByDepthMap));
         }
 
-         /// <summary>
+        /// <summary>
         /// Находит и возвращает минимальное количество тиков в кривой.
         /// </summary>
         /// <param name="ticksByDepthMap"></param>
@@ -66,6 +66,6 @@ namespace TimeReadOnlySortedMap
         public static long GetStartOfDay(long timeInTicks)
         {
             return new DateTime(timeInTicks).Date.Ticks;
-        }                       
+        }
     }
 }

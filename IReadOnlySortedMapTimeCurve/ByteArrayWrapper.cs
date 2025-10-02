@@ -13,14 +13,14 @@ namespace TimeReadOnlySortedMap
 
             public TicksList(IReadOnlyList<byte[]> source)
             {
-                this.source = source ?? throw new ArgumentNullException(nameof(source));       
+                this.source = source ?? throw new ArgumentNullException(nameof(source));
             }
 
             public long this[int index]
             {
                 get
                 {
-                    var array = source[index];                    
+                    var array = source[index];
                     var ticks = BitConverter.ToInt64(array, 0);
                     return ticks;
                 }
@@ -34,7 +34,7 @@ namespace TimeReadOnlySortedMap
                     yield return this[i];
             }
 
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();            
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
         private readonly IReadOnlySortedMap<double, byte[]> localTimeMap;
@@ -43,12 +43,12 @@ namespace TimeReadOnlySortedMap
         public ByteArrayWrapper(IReadOnlySortedMap<double, byte[]> localTimeMap)
         {
             this.localTimeMap = localTimeMap ?? throw new ArgumentNullException(nameof(localTimeMap));
-            ticksList = new TicksList(localTimeMap.Values);            
+            ticksList = new TicksList(localTimeMap.Values);
         }
 
         public long this[double key]
         {
-            get 
+            get
             {
                 var array = localTimeMap[key];
                 return BitConverter.ToInt64(array, 0);
@@ -59,7 +59,7 @@ namespace TimeReadOnlySortedMap
         {
             get
             {
-                var key = localTimeMap[index].Key;                
+                var key = localTimeMap[index].Key;
                 return new KeyValuePair<double, long>(key, ticksList[index]);
             }
         }
@@ -71,9 +71,9 @@ namespace TimeReadOnlySortedMap
         public int Count => localTimeMap.Count;
 
         public int BinarySearch(double key) => localTimeMap.BinarySearch(key);
-        
+
         public bool ContainsKey(double key) => localTimeMap.ContainsKey(key);
-        
+
 
         public IEnumerator<KeyValuePair<double, long>> GetEnumerator()
         {

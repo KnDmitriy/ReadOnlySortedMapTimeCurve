@@ -7,7 +7,11 @@ namespace TimeReadOnlySortedMap
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
         private readonly ByteArrayWrapper ticksByDepthMap;
-        private readonly long minTicksFromLocalTime;
+        private readonly long startTicks;
+        public long StartTicks
+        {
+            get { return startTicks; }
+        }
 
         public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTimeMap, TimeOrigin type)
         {
@@ -15,21 +19,21 @@ namespace TimeReadOnlySortedMap
             switch (type)
             {
                 case TimeOrigin.StartTime:
-                    minTicksFromLocalTime = DateTimeHelpers.GetMinTicks(ticksByDepthMap);
+                    startTicks = DateTimeHelpers.GetMinTicks(ticksByDepthMap);
                     break;
                 case TimeOrigin.StartOfDay:
-                    minTicksFromLocalTime = DateTimeHelpers.GetStartOfDayFromTicks(ticksByDepthMap);
+                    startTicks = DateTimeHelpers.GetStartOfDayFromTicks(ticksByDepthMap);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type));
             }
         }
-        
+
         public IReadOnlySortedMap<double, T> Convert<T>(IReadOnlySortedMap<double, T> valuesByDepthMap)
         {
-            if (valuesByDepthMap is null)            
+            if (valuesByDepthMap is null)
                 throw new ArgumentNullException(nameof(valuesByDepthMap));
-            
+
             var result = new PieList<double, T>();
 
             for (var i = 0; i < valuesByDepthMap.Count; i++)
@@ -37,9 +41,9 @@ namespace TimeReadOnlySortedMap
                 double depth = valuesByDepthMap[i].Key;
                 T value = valuesByDepthMap[i].Value;
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
-                
+
                 double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
-                double key = (ticks - minTicksFromLocalTime).ToSeconds();
+                double key = (ticks - startTicks).ToSeconds();
                 result.Insert(key, value);
             }
             return result.ToSortedMap();
@@ -59,7 +63,7 @@ namespace TimeReadOnlySortedMap
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
 
                 double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
-                double key = (ticks - minTicksFromLocalTime).ToSeconds();
+                double key = (ticks - startTicks).ToSeconds();
 
                 var newValue = new RecordWaveValue(key)
                 {
@@ -68,7 +72,7 @@ namespace TimeReadOnlySortedMap
                     Values = value.Values,
                 };
                 value = newValue;
-                
+
                 result.Insert(key, value);
             }
             return result.ToSortedMap();
