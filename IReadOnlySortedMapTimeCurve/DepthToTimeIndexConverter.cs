@@ -7,11 +7,7 @@ namespace TimeReadOnlySortedMap
     public class DepthToTimeIndexConverter : IDepthToTimeIndexConverter
     {
         private readonly ByteArrayWrapper ticksByDepthMap;
-        private readonly long startTicks;
-        public long StartTicks
-        {
-            get { return startTicks; }
-        }
+        public long StartTicks { get; }
 
         public DepthToTimeIndexConverter(IReadOnlySortedMap<double, byte[]> localTimeMap, TimeOrigin type)
         {
@@ -19,10 +15,10 @@ namespace TimeReadOnlySortedMap
             switch (type)
             {
                 case TimeOrigin.StartTime:
-                    startTicks = DateTimeHelpers.GetMinTicks(ticksByDepthMap);
+                    StartTicks = DateTimeHelpers.GetMinTicks(ticksByDepthMap);
                     break;
                 case TimeOrigin.StartOfDay:
-                    startTicks = DateTimeHelpers.GetStartOfDayFromTicks(ticksByDepthMap);
+                    StartTicks = DateTimeHelpers.GetStartOfDayFromTicks(ticksByDepthMap);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type));
@@ -43,7 +39,7 @@ namespace TimeReadOnlySortedMap
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
 
                 double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
-                double key = (ticks - startTicks).ToSeconds();
+                double key = (ticks - StartTicks).ToSeconds();
                 result.Insert(key, value);
             }
             return result.ToSortedMap();
@@ -63,7 +59,7 @@ namespace TimeReadOnlySortedMap
                 int foundIndex = ticksByDepthMap.BinarySearch(depth);
 
                 double ticks = GetTicksByBinarySearchIndex(foundIndex, depth);
-                double key = (ticks - startTicks).ToSeconds();
+                double key = (ticks - StartTicks).ToSeconds();
 
                 var newValue = new RecordWaveValue(key)
                 {
